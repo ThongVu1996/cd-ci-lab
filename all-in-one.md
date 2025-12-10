@@ -160,24 +160,25 @@
 
   1. Tạo file `05-ens160.network` (Biến card vật lý thành "cha", dùng `ip a` để kiểm tra):
 
-    ```bash
-    sudo nano /etc/systemd/network/05-ens160.network
-    ```
-    
-    ```bash
-    [Match]
-    Name=ens160
-    
-    [Network]
-    IPVLAN=ipvhost0
-    ```
 
-    #### [Giải thích File 05-ens160.network]
-    
-    - **[Match]**: Định danh card mạng vật lý (parent).
-    - **Name=ens160**: Tên card mạng vật lý đang được sử dụng (ví dụ: \`ens160\` hoặc \`eth0\`).
-    - **[Network]**: Khối định nghĩa cách thức hoạt động của mạng.
-    - **IPVLAN=ipvhost0**: Chỉ định rằng interface ảo có tên \`ipvhost0\` (được định nghĩa trong file \`.netdev\` tiếp theo) sẽ được gắn (attach) vào card mạng vật lý này. Card vật lý giờ đây       chỉ là cầu nối (trunk).
+      ```bash
+      sudo nano /etc/systemd/network/05-ens160.network
+      ```
+      
+      ```bash
+      [Match]
+      Name=ens160
+      
+      [Network]
+      IPVLAN=ipvhost0
+      ```
+
+      #### [Giải thích File 05-ens160.network]
+      
+      - **[Match]**: Định danh card mạng vật lý (parent).
+      - **Name=ens160**: Tên card mạng vật lý đang được sử dụng (ví dụ: \`ens160\` hoặc \`eth0\`).
+      - **[Network]**: Khối định nghĩa cách thức hoạt động của mạng.
+      - **IPVLAN=ipvhost0**: Chỉ định rằng interface ảo có tên \`ipvhost0\` (được định nghĩa trong file \`.netdev\` tiếp theo) sẽ được gắn (attach) vào card mạng vật lý này. Card vật lý giờ đây chỉ là cầu nối (trunk).
 
   2. Tạo file `10-ipvhost0.netdev` (Định nghĩa interface ảo cho Host):
 
