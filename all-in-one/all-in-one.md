@@ -678,51 +678,59 @@
      - `dns.thongdev.site` ➡️ `192.168.1.31` (Trỏ về NPM - cho Web UI)
      - `npm.thongdev.site` ➡️ `192.168.1.31` (Trỏ về NPM - cho Web UI)
      - `ssh.gitlab.thongdev.site` ➡️ `192.168.1.32` (Trỏ **thẳng** vào GitLab)
+     <image src="./3.png">
 
      **Chi tiết: Cách thêm bản ghi A (URL) trong Technitium**
-     1. Đăng nhập vào Technitium DNS: `http://192.168.1.30:5380`.
-     2. Nếu chưa có Zone: Nhấn "Add Zone" -&gt; "Primary Zone". Nhập "Zone Name" là `thongdev.site` -&gt; "Add".
-     3. Nhấn vào tên zone `thongdev.site`.
-     4. Phía trên, nhấn nút "Add Record".
-     5. **Name:** Nhập tiền tố (ví dụ: `gitlab`, `register`, `ssh`, `jenkins`, `dns`, `npm`).
-     6. **Type:** Chọn `A`.
-     7. **IP Address:** Nhập địa chỉ IP tương ứng (ví dụ: `192.168.1.31` hoặc `192.168.1.32` theo danh sách trên).
-     8. **TTL:** Để mặc định (hoặc 300).
-     9. Nhấn "Add Record".
-     10. Lặp lại cho cả 6 bản ghi.
+     - Đăng nhập vào Technitium DNS: `http://192.168.1.30:5380`.
+     - Nếu chưa có Zone: Nhấn "Add Zone" -&gt; "Primary Zone". Nhập "Zone Name" là `thongdev.site` -&gt; "Add".
+     <image src="./1.png">
+     - Nhấn vào tên zone `thongdev.site`.
+     -  Phía trên, nhấn nút "Add Record".
+     - **Name:** Nhập tiền tố (ví dụ: `gitlab`, `register`, `ssh`, `jenkins`, `dns`, `npm`).
+     - **Type:** Chọn `A`.
+     - **IP Address:** Nhập địa chỉ IP tương ứng (ví dụ: `192.168.1.31` hoặc `192.168.1.32` theo danh sách trên).
+     - **TTL:** Để mặc định (hoặc 300).
+     - Nhấn "Add Record".
+     <image src="./2.png">
+     - Lặp lại cho cả 6 bản ghi.
 
   2. Nginx Proxy Manager (`http://192.168.1.31:81`):
-
      **Yêu cầu:** Tạo **5 Proxy Hosts**:
-     1. **Host 1 (GitLab Web):** Domain `gitlab.thongdev.site` ➡️ Forward `http://192.168.1.32:80`
-     2. **Host 2 (GitLab Registry):** Domain `register.thongdev.site` ➡️ Forward `http://192.168.1.32:5050`
-     3. **Host 3 (Jenkins):** Domain `jenkins.thongdev.site` ➡️ Forward `http://192.168.1.34:8080` (Tích **Websockets Support**).
-     4. **Host 4 (DNS UI):** Domain `dns.thongdev.site` ➡️ Forward `http://192.168.1.30:5380`
-     5. **Host 5 (NPM UI):** Domain `npm.thongdev.site` ➡️ Forward `http://192.168.1.31:81`
+     - **Host 1 (GitLab Web):** Domain `gitlab.thongdev.site` ➡️ Forward `http://192.168.1.32:80`
+     - **Host 2 (GitLab Registry):** Domain `register.thongdev.site` ➡️ Forward `http://192.168.1.32:5050`
+     - **Host 3 (Jenkins):** Domain `jenkins.thongdev.site` ➡️ Forward `http://192.168.1.34:8080` (Tích **Websockets Support**).
+     - **Host 4 (DNS UI):** Domain `dns.thongdev.site` ➡️ Forward `http://192.168.1.30:5380`
+     - **Host 5 (NPM UI):** Domain `npm.thongdev.site` ➡️ Forward `http://192.168.1.31:81`
 
      **Chi tiết: Cách thêm Proxy Host (URL) trong NPM**
-     6. Đăng nhập vào NPM: `http://192.168.1.31:81` (Email mặc định: `admin@example.com`, Pass: `changeme`).
-     7. Vào "Hosts" -&gt; "Proxy Hosts" -&gt; "Add Proxy Host".
-     8. **Tab Details:**
-        - **Domain Names:** Nhập tên miền (ví dụ: `gitlab.thongdev.site`).
-        - **Scheme:** `http`
-        - **Forward Hostname / IP:** Nhập IP của dịch vụ (ví dụ: `192.168.1.32`).
-        - **Forward Port:** Nhập port của dịch vụ (ví dụ: `80`).
-        - Tích **"Block Common Exploits"**.
-        - Tích **"Websockets Support"** (Đặc biệt quan trọng cho Jenkins và GitLab).
+      -  Đăng nhập vào NPM: `http://192.168.1.31:81` (Email mặc định: `admin@example.com`, Pass: `changeme`).
+      - Vào "Hosts" -&gt; "Proxy Hosts" -&gt; "Add Proxy Host".
+      -  **Tab Details:**
+          <image src ="./4.png">
+           - **Domain Names:** Nhập tên miền (ví dụ: `gitlab.thongdev.site`).
+           - **Scheme:** `http`
+           - **Forward Hostname / IP:** Nhập IP của dịch vụ (ví dụ: `192.168.1.32`).
+           - **Forward Port:** Nhập port của dịch vụ (ví dụ: `80`).
+           - Tích **"Block Common Exploits"**.
+           - Tích **"Websockets Support"** (Đặc biệt quan trọng cho Jenkins và GitLab).
 
-     9. **Tab SSL:** (Xem bước SSL bên dưới).
-     10. Nhấn "Save".
-     11. Lặp lại cho các host còn lại.
+     - **Tab SSL:**
+        <image src ="./5.png">
+        <image src ="./9.png">
+     -  Nhấn "Save".
+     - Lặp lại cho các host còn lại.
 
      **Chi tiết: Cách thêm SSL (Self-Signed hoặc Let's Encrypt)**
      - Sau khi tạo Proxy Host, click vào 3 chấm bên phải của host đó -&gt; "Edit".
      - Chuyển qua tab **SSL**.
      - **Cách 1: Dùng Let's Encrypt (Khuyến nghị nếu có domain public và đã NAT port):**
-       - Trong "SSL Certificate", chọn "Request a new SSL Certificate".
-       - Tích "Force SSL" và "HTTP/2 Support".
-       - Nhấn "Save". (Yêu cầu cổng 80/443 của NPM (IP `.31`) phải được NAT ra internet).
+      [API-token-dns](https://dash.cloudflare.com/profile/api-tokens)
+      <image src ="./6.png">
+      <image src ="./7.png">
+      <image src ="./8.png">
 
+       - Thay token lấy được trên cloudflare vào chỗ dns_cloudflare_api_token
+       - Chỗ domain Names: \*.ten_domain (eg: \*.thongdev.site)
      - **Cách 2: Dùng `mkcert` (Tạo Self-Signed được Tin cậy - Khuyến nghị cho Lab):**
 
        Cách này tạo ra một "Certificate Authority" (CA) giả lập trên máy ảo của bạn, sau đó tạo chứng chỉ từ CA đó. Cuối cùng, bạn chỉ cần "tin tưởng" CA này trên máy Mac/Windows của mình là mọi trình duyệt sẽ hiển thị ổ khóa màu xanh.
@@ -998,29 +1006,39 @@ pipeline {
    git push -u origin
    ```
 
-## Giai đoạn 2: Jenkins (Nơi Build) 👷 (CẬP NHẬT)
+## Giai đoạn 2: Jenkins (Nơi Build)
 
 Cấu hình Jenkins để nó "biết" về project và cách thực thi pipeline.
 
 1. Đăng nhập lần đầu & Cài đặt cơ bản:
    - Truy cập `https://jenkins.thongdev.site`.
-   - Lấy mật khẩu admin ban đầu:
+   - Lấy mật khẩu admin ban đầu, rồi điền vào chỗ ảnh duới
 
      ```
      docker exec $(docker ps -qf "name=devcom_jenkins") cat /var/jenkins_home/secrets/initialAdminPassword
      ```
+     <image src ="./10.png">
 
    - Hoàn thành cài đặt ("Install suggested plugins"), tạo user admin (ví dụ: `tony`).
    - **Tạo user "cto":** Vào `Manage Jenkins` -&gt; `Security` -&gt; `Manage Users` -&gt; `Create User`. Tạo user tên `cto`.
 
 2. Cài Plugin GitLab & Kubernetes:
    - Vào `Manage Jenkins` -&gt; `Plugins` -&gt; `Available plugins`.
-   - Tìm và cài đặt: `GitLab`.
-   - Tìm và cài đặt: `Kubernetes CLI` (Cần cho `withKubeconfig`).
+   - Blue Ocean – giao diện pipeline trực quan.
+   - Docker Pipeline
+   - Kubernetes CLI
+   - GitLab Plugin
+   - Role-based Authorization Strategy
+     <image src ="./11.png">
+  2.1 Cài đặt system, security Jenkins (Authorization, Gitlab) như hình.
+  <image src ="./14.png">
+  <image src ="./13.png">
+  <image src ="./12.png">
 
-3. Tạo Credentials cho GitLab (CẬP NHẬT): (Để Jenkins đọc code VÀ push image)
+3. Tạo Credentials cho GitLab: Để Jenkins đọc code VÀ push image
 
    Chúng ta cần tạo 2 credentials:
+   <image src ="./15.png">
    1. **Credential 1: Đọc/Viết Code (Dùng PAT)**
       - Vào GitLab (user `root`), tạo **Personal Access Token (PAT)**. Đặt tên `jenkins-api-token`, chọn scopes **`api`** và **`read_repository`** . Copy token.
       - Vào Jenkins `Manage Jenkins` -&gt; `Credentials` -&gt; `(global)`.
@@ -1042,6 +1060,10 @@ Cấu hình Jenkins để nó "biết" về project và cách thực thi pipelin
         - **ID:** `gitlab-registry-creds` (PHẢI KHỚP với \`Jenkinsfile\` K8s)
 
 4. Tạo Pipeline Job: (Đây là "Công việc" Jenkins sẽ thực thi)
+   <image src ="./17.png">
+   <image src ="./21.png">
+    (Cái này dùng PAT có quyền với Repo vì nó có tác dụng kéo code từ gitlab về)
+   <image src ="./18.png">
    - Trang chủ Jenkins -&gt; `New Item`.
    - **Enter an item name:** `corejs-build-deploy`.
    - Chọn **`Pipeline`** -&gt; `OK`.
@@ -1050,16 +1072,18 @@ Cấu hình Jenkins để nó "biết" về project và cách thực thi pipelin
      - **Definition:** `Pipeline script from SCM`.
      - **SCM:** `Git`.
      - **Repository URL:** `https://gitlab.thongdev.site/root/corejs.git` (URL HTTPS của project).
-     - **Credentials:** Chọn `gitlab-token` (Credential 1).
+     - **Credentials:** Chọn `gitlab-token` (Cũng dùng PAT có quyền tương tác với Repo).
      - **Branches to build** -&gt; **Branch Specifier:** `*/nodejs` (Hoặc nhánh bạn push `Jenkinsfile` lên).
      - **Script Path:** `Jenkinsfile`.
      - \*\*(Quan trọng)\*\* Nhấn `Add` bên cạnh **Additional Behaviours** -&gt; Chọn **`Wipe out repository & force clone`** .
 
    - Nhấn `Save`.
+   - Nhớ tạo credentials cho jenkins ở link [Credential](https://jenkins.thongdev.site/manage/credentials/store/system/domain/_/)
+   <image src ="./20.png">
+    
+   
 
 ## Giai đoạn 3: Kết nối Webhook (Trigger) 🔗
-
-(Giữ nguyên như tài liệu gốc)
 
 1. Lấy Secret Token từ Jenkins:
    - Mở job `corejs-build-deploy` -&gt; `Configure` -&gt; `Build Triggers`.
@@ -1067,24 +1091,27 @@ Cấu hình Jenkins để nó "biết" về project và cách thực thi pipelin
    - Nhấn `Advanced...` -&gt; `Generate` (trong mục Secret token).
    - **Copy** token bí mật đó.
    - Nhấn `Save`.
-
+   <image src ="./22.png">
+   <image src ="./23.png">
 2. Tạo Webhook trên GitLab:
    - Mở project `corejs` -&gt; `Settings` -&gt; `Webhooks`.
    - **URL:** `https://jenkins.thongdev.site/project/corejs-build-deploy` (Thay tên job nếu khác).
-   - **Secret Token:** **Dán** token bí mật từ Jenkins.
+   - **Secret Token:** **Dán** token bí mật từ Jenkins (lấy ở ngay ảnh bên trên).
    - **Trigger:** Chỉ tích `Push events`.
    - **SSL verification:** **BỎ TÍCH** (Untick) ô **"Enable SSL verification"**.
    - Nhấn `Add webhook`.
+   <image src ="./24.png">
 
 #### ⚠️ Khắc phục lỗi: "Invalid url given"
 
 Nếu bạn gặp lỗi này khi nhấn "Add webhook" hoặc khi Test, hãy thực hiện cấu hình sau:
-
+<image src ="./25.png">
 1. Truy cập **Admin Area** (biểu tượng cờ lê hoặc Menu &gt; Admin).
 2. Vào **Settings** &gt; **Network** &gt; **Outbound Requests**.
 3. Tích vào ô: **"Allow requests to the local network from webhooks and integrations"**.
 4. Tích vào ô: **"Allow requests to the local network from system hooks"**.
 5. Nhấn **Save changes**.
+
 
 **Kiểm tra lại:**
 
@@ -1104,9 +1131,350 @@ Nếu bạn gặp lỗi này khi nhấn "Add webhook" hoặc khi Test, hãy th�
    - Đăng nhập vào Jenkins bằng user **`cto`** .
    - Mở job đang tạm dừng.
    - Nhấn nút **`Proceed`** .
+<image src ="./27.png">
 
 3. Hoàn tất Deploy & Kiểm tra Ứng dụng:
    - Pipeline sẽ tiếp tục chạy Stage 4 (Deploy Docker Host) và báo `SUCCESS`.
-   - Truy cập Ứng dụng: `http://192.168.1.161:8081` (Thay IP host và port nếu bạn đặt khác).
+   - Truy cập Ứng dụng: `http://192.168.1.161:8081` và `http://192.168.1.161:5001` (Thay IP host và port nếu bạn đặt khác).
+  <image src ="./26.png">
+  <image src ="./28.png">
+  <image src ="./29.png">
+---
+
+## Giai đoạn 5: Triển khai lên Kubernetes 
+Sau khi đã thành thạo “Cách 1”, bạn có thể nâng cấp pipeline để deploy ứng dụng lên cụm Kubernetes thay vì Docker host. Đây là hướng dẫn sơ bộ, bạn cần điều chỉnh chi tiết cho phù hợp.
+
+- **Bước 1: Chuẩn bị file Manifest Kubernetes**
+  - Bạn cần tạo các file YAML định nghĩa cách ứng dụng chạy trên K8s (Deployment, Service). Tạo một thư mục k8s trong project corejs.
+  - File: k8s/namespace.yaml
+    ```bash
+        apiVersion: v1
+        kind: Namespace
+        metadata:
+        name: corejs-prod # Tên namespace cho ứng dụng
+    ```
+  - File: k8s/registry-secret.yaml (Bắt buộc nếu Registry không public)
+    ```
+      kubectl create secret docker-registry gitlab-registry-creds \
+      --docker-server=register.dev.com \
+      --docker-username=YOUR_GITLAB_USERNAME \
+      --docker-password=YOUR_GITLAB_PAT \ # Cái này là PAT có quyền với Registry tạo ở trên đó
+      --namespace=corejs-prod \
+      --dry-run=client -o yaml > k8s/registry-secret.yaml
+    ```
+    File registry-secret.yaml sẽ được tạo ra.
+  - File: k8s/backend-deployment.yaml
+    ```bash
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: corejs-backend
+          namespace: corejs-prod
+        spec:
+          replicas: 1 # Số lượng pod muốn chạy
+          selector:
+            matchLabels:
+              app: corejs-backend
+          template:
+            metadata:
+              labels:
+                app: corejs-backend
+            spec:
+              # K8s sẽ dùng secret này để kéo image
+              imagePullSecrets:
+              - name: gitlab-registry-creds
+              containers:
+              - name: backend
+                # Image được build bởi Jenkins
+                image: devcom/corejs-backend:latest 
+                ports:
+                - containerPort: 80 # Port mà backend lắng nghe bên trong
+    ```
+
+  - File: k8s/backend-service.yaml
+      ```
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: corejs-backend-svc # Tên service nội bộ
+          namespace: corejs-prod
+        spec:
+          selector:
+            app: corejs-backend
+          ports:
+            - protocol: TCP
+              port: 80 # Port mà các service khác trong K8s gọi đến
+              targetPort: 80 # Trỏ đến containerPort của Deployment
+          # Type: ClusterIP là mặc định, chỉ truy cập được bên trong K8s
+      ```
+
+  - File: k8s/frontend-deployment.yaml
+    ```
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: corejs-frontend
+        namespace: corejs-prod
+      spec:
+        replicas: 1
+        selector:
+          matchLabels:
+            app: corejs-frontend
+        template:
+          metadata:
+            labels:
+              app: corejs-frontend
+          spec:
+            imagePullSecrets:
+            - name: gitlab-registry-creds
+            containers:
+            - name: frontend
+              image: devcom/corejs-frontend:latest # Image Nginx đã build
+              ports:
+              - containerPort: 80 # Port Nginx lắng nghe bên trong
+    ```
+  - File: k8s/frontend-service.yaml (Dùng NodePort)
+    ```
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: corejs-frontend-svc
+        namespace: corejs-prod
+      spec:
+        selector:
+          app: corejs-frontend
+        # --- SỬ DỤNG NODEPORT ĐỂ TRUY CẬP TỪ BÊN NGOÀI ---
+        type: NodePort 
+        ports:
+          - protocol: TCP
+            port: 80       # Port bên trong cluster
+            targetPort: 80   # Port của container
+            # nodePort: 30080 # Tùy chọn: Chỉ định port cụ thể (30000-32767)
+            # Nếu bỏ trống, K8s sẽ tự chọn 1 port NodePort
+
+    ```  
+    Đẩy thư mục k8s chứa các file này lên GitLab.
+
+- **Bước 2: Cài đặt kubectl trong Jenkins (Đã làm ở Dockerfile)**
+  - Bước 2: Cài đặt kubectl trong Jenkins (Đã làm ở Dockerfile)
+  - Kiểm tra, đi vào container jenkins gõ lệnh kubectl
+    ```
+      iadmin@srv025-aio:~$ docker exec -it devops-jenkins-1 /bin/bash
+      root@f172c54d2f72:/# kubectl 
+      kubectl controls the Kubernetes cluster manager.
+
+      Find more information at: https://kubernetes.io/docs/reference/kubectl/
+
+      Basic Commands (Beginner):
+        create          Create a resource from a file or from stdin
+        expose          Take a replication controller, service, deployment or pod and expose it as a new Kubernetes service
+        run             Run a particular image on the cluster
+        set             Set specific features on objects
+    ```
+
+- **Bước 3: Tạo K8s Credentials trong Jenkins**
+  Jenkins cần quyền để kết nối và deploy lên cụm K8s.
+  - Cách 1 (Username/Password - Đơn giản nhưng kém an toàn):
+    - Vào Jenkins -> Credentials -> (global) -> Add Credentials.
+    - Kind: Username with password.
+    - Username: devops
+    - Password: Devcom@2025
+    - ID: k8s-user-creds
+    <image src="./30.png">
+
+  - Cách 2 (Kubeconfig - Khuyến nghị):
+    - SSH vào k8s-master-1.
+    - Copy nội dung file ~/.kube/config.
+    - Vào Jenkins -> Credentials -> (global) -> Add Credentials.
+    - Kind: Kubernetes configuration (kubeconfig).
+    - ID: k8s-cluster-config
+    - Kubeconfig: Chọn Enter directly và dán nội dung file config vào.
+    <image src="./31.png">
+  - Cách 3:
+    - SSH vào k8s-master-1.
+    - Copy nội dung file ~/.kube/config.
+    - Cần phải cài thêm Kubernetes, Kubernetes CLI Plugin sau đó add thêm Credentials
+    - Vào Jenkins -> Credentials -> (global) -> Add Credentials.
+    - Kind: Secret file.
+    - Uploadfile config của kụm k8s lên Jenkins
+    - ID: k8s-config-file
+    <image src="./32.png">
+  - **Lưu ý**: Cách dùng Kubeconfig an toàn và linh hoạt hơn. Jenkins Controller cần mount volume /opt/devops/kube/.kube:/root/.kube (như trong docker-compose.yml) để kubectl hoạt động.
+  
+**Bước 4: Cập nhật Jenkinsfile (Thêm Stage Deploy K8s)**
+Sửa lại Jenkinsfile trong project corejs.
+  ```
+          // Jenkinsfile - Deploy to Kubernetes
+      pipeline {
+          agent any 
+
+          environment {
+              // --- Application & Image Naming ---
+              APP_NAME            = 'corejs'
+              REGISTRY_HOST       = 'register.thongdev.site'
+              // (QUAN TRỌNG) Đường dẫn project trên GitLab (ví dụ: tonylab/corejs)
+              GITLAB_PROJECT_PATH = 'tonylab/corejs' 
+
+              // (QUAN TRỌNG) Tên image đầy đủ. Phải khớp với file deployment.yaml
+              FRONTEND_IMAGE      = "${env.REGISTRY_HOST}/${env.GITLAB_PROJECT_PATH}/frontend:latest"
+              BACKEND_IMAGE       = "${env.REGISTRY_HOST}/${env.GITLAB_PROJECT_PATH}/backend:latest"
+
+              // --- K8s Variables ---
+              
+              // (CẬP NHẬT) K8S_NAMESPACE
+              // Tác dụng: Chỉ định "không gian làm việc" (namespace) riêng cho ứng dụng trong K8s.
+              // Dùng ở đâu: Được dùng trong Stage 4 (Deploy) với cờ '-n' 
+              //             (ví dụ: `kubectl apply -f ... -n ${env.K8S_NAMESPACE}`).
+              // Tạo ở đâu: Được định nghĩa trong file `k8s/namespace.yaml`.
+              K8S_NAMESPACE       = 'corejs-prod'
+              
+              // (CẬP NHẬT) K8S_CREDENTIAL_ID
+              // Tác dụng: Đây là ID của "chìa khóa" (kubeconfig) mà Jenkins cần để có
+              //             quyền đăng nhập và điều khiển cụm K8s của bạn.
+              // Dùng ở đâu: Được dùng trong Stage 4 (Deploy) bởi hàm `withKubeConfig(...)`.
+              // Tạo ở đâu: Bạn phải tạo credential này thủ công trong Jenkins 
+              //             (Giai đoạn 5, Bước 2).
+              K8S_CREDENTIAL_ID   = 'k8s-cluster-config'
+              
+              // ID của PAT (Giai đoạn 2, Credential 2)
+              REGISTRY_CREDENTIAL_ID = 'gitlab-registry-creds' 
+          }
+
+          stages {
+              // --- Stage 1: Get latest code ---
+              stage('1. Checkout Code') {
+                  steps {
+                      checkout scm 
+                      echo "SUCCESS: Code checked out from GitLab."
+                  }
+              }
+              
+              // --- Stage 2: Build Production Docker Images ---
+              stage('2. Build Docker Images') {
+                  parallel {
+                      stage('Build Frontend') {
+                          steps {
+                              dir('frontend') {
+                                  echo "INFO: Building Frontend production image: ${env.FRONTEND_IMAGE}"
+                                  sh "docker build -t ${env.FRONTEND_IMAGE} ." 
+                              }
+                          }
+                      }
+                      stage('Build Backend') {
+                          steps {
+                              dir('CoreAPI') {
+                                  echo "INFO: Building Backend image: ${env.BACKEND_IMAGE}"
+                                  sh "docker build -t ${env.BACKEND_IMAGE} ."
+                              }
+                          }
+                      }
+                  } // End parallel build
+              } // End Stage 2
+              
+              // --- (MỚI) Stage 2.5: Push Images to GitLab Registry ---
+              stage('2.5. Push Images to Registry') {
+                  steps {
+                      script {
+                          // Sử dụng Credential 2 (Username/Password) đã tạo
+                          withCredentials([usernamePassword(credentialsId: env.REGISTRY_CREDENTIAL_ID, passwordVariable: 'REG_PASS', usernameVariable: 'REG_USER')]) {
+                              
+                              echo "INFO: Logging in to ${env.REGISTRY_HOST}..."
+                              sh "docker login -u ${REG_USER} -p ${REG_PASS} ${env.REGISTRY_HOST}"
+                              
+                              echo "INFO: Pushing Frontend image: ${env.FRONTEND_IMAGE}"
+                              sh "docker push ${env.FRONTEND_IMAGE}"
+                              
+                              echo "INFO: Pushing Backend image: ${env.BACKEND_IMAGE}"
+                              sh "docker push ${env.BACKEND_IMAGE}"
+                              
+                              echo "INFO: Logging out..."
+                              sh "docker logout ${env.REGISTRY_HOST}"
+                          }
+                      }
+                  }
+              } // End Stage 2.5
+              
+              // --- Stage 3: Manual Approval Gate ---
+              stage('3. CTO Approval') {
+                  steps {
+                      timeout(time: 1, unit: 'HOURS') { 
+                          input message: 'ACTION REQUIRED: Approve deployment to Production (Kubernetes)?',
+                                ok: 'Proceed to Deploy',
+                                submitter: 'cto'
+                      }
+                  }
+              } // End Stage 3
+              
+              // --- (THAY THẾ) Stage 4: Deploy to Kubernetes ---
+              stage('4. Deploy to Production (Kubernetes)') {
+                  steps {
+                      echo "INFO: Approval received. Deploying application to Kubernetes cluster..."
+                      script {
+                          // (CẬP NHẬT) Dùng Kubeconfig (Secret file) đã upload 
+                          withKubeconfig(credentialsId: env.K8S_CREDENTIAL_ID, variable: 'KUBECONFIG_FILE') {
+                              // Jenkins sẽ tự động trỏ biến KUBECONFIG đến file bí mật đã upload
+                              
+                              echo "INFO: Applying K8s manifests..."
+                              // Chạy kubectl apply cho các file YAML (trong thư mục k8s của repo)
+                              sh """
+                              kubectl apply -f k8s/namespace.yaml || true 
+                              kubectl apply -f k8s/registry-secret.yaml -n ${env.K8S_NAMESPACE}
+                              kubectl apply -f k8s/backend-deployment.yaml -n ${env.K8S_NAMESPACE}
+                              kubectl apply -f k8s/backend-service.yaml -n ${env.K8S_NAMESPACE}
+                              kubectl apply -f k8s/frontend-deployment.yaml -n ${env.K8S_NAMESPACE}
+                              kubectl apply -f k8s/frontend-service.yaml -n ${env.K8S_NAMESPACE}
+                              """
+
+                              echo "INFO: Waiting for deployments to roll out..."
+                              sh "kubectl rollout status deployment/corejs-frontend -n ${env.K8S_NAMESPACE}"
+                              sh "kubectl rollout status deployment/corejs-backend -n ${env.K8S_NAMESPACE}"
+
+                              def nodePort = sh(
+                                  script: "kubectl get service corejs-frontend-svc -n ${env.K8S_NAMESPACE} -o=jsonpath='{.spec.ports[0].nodePort}'",
+                                  returnStdout: true
+                              ).trim()
+                              
+                              echo "----------------------------------------------------"
+                              echo "✅ KUBERNETES DEPLOYMENT COMPLETE!"
+                              echo "   Access Frontend at: http://:${nodePort}"
+                              echo "----------------------------------------------------"
+                          } // end withKubeconfig
+                      } // end script
+                  }
+              } // End Stage 4 K8s
+          } // End of stages
+          
+      } // End of pipeline
+  ```
+
+**Bước 5: Chạy Pipeline và Truy cập Ứng dụng**
+  - Trigger pipeline (push code hoặc `Build Now`).
+  - Phê duyệt ở Stage 3.
+  - Stage 4 sẽ chạy `kubectl apply`.
+  - Sau khi thành công, kiểm tra Console Output để lấy NodePort.
+  Truy cập ứng dụng qua trình duyệt bằng địa chỉ: http://: (Ví dụ: http://192.168.1.151:30080).
+  <image src ="./33.png">
 
 ---
+
+## Giai đoạn 6: Public hệ thống qua Zero trust của Cloudflare
+- Truy cập https://one.dashboard.cloudflare.com
+- Tìm kiếm zero trust
+  <image src="./34.png">
+- Vào tạo Tunels
+  <image src="./36.png">
+- Chọn Cloudflared
+  <image src="./37.png">
+- Nhập tên tunnel -> Save tunnel
+  <image src="./38.png">
+- Chọn môi trường để connect
+  <image src="./39.png">
+- Kiểm tra thấy tunnel HEALTHY là tunnel đã được kích hoạt
+   <image src="./40.png">
+- Chọn Configure
+  <image src="./43.png">
+- Chọn Published applcation routes
+  <image src="./41.png">
+- Điền các thông tin cần thiết
+  <image src="./42.png">
+  
