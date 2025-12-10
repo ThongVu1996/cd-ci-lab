@@ -160,89 +160,89 @@
 
   1. Tạo file `05-ens160.network` (Biến card vật lý thành "cha", dùng `ip a` để kiểm tra):
 
-  ```bash
-  sudo nano /etc/systemd/network/05-ens160.network
-  ```
-  
-  ```bash
-  [Match]
-  Name=ens160
-  
-  [Network]
-  IPVLAN=ipvhost0
-  ```
+    ```bash
+    sudo nano /etc/systemd/network/05-ens160.network
+    ```
+    
+    ```bash
+    [Match]
+    Name=ens160
+    
+    [Network]
+    IPVLAN=ipvhost0
+    ```
 
-#### [Giải thích File 05-ens160.network]
+    #### [Giải thích File 05-ens160.network]
+    
+    - **[Match]**: Định danh card mạng vật lý (parent).
+    - **Name=ens160**: Tên card mạng vật lý đang được sử dụng (ví dụ: \`ens160\` hoặc \`eth0\`).
+    - **[Network]**: Khối định nghĩa cách thức hoạt động của mạng.
+    - **IPVLAN=ipvhost0**: Chỉ định rằng interface ảo có tên \`ipvhost0\` (được định nghĩa trong file \`.netdev\` tiếp theo) sẽ được gắn (attach) vào card mạng vật lý này. Card vật lý giờ đây       chỉ là cầu nối (trunk).
 
-- **[Match]**: Định danh card mạng vật lý (parent).
-- **Name=ens160**: Tên card mạng vật lý đang được sử dụng (ví dụ: \`ens160\` hoặc \`eth0\`).
-- **[Network]**: Khối định nghĩa cách thức hoạt động của mạng.
-- **IPVLAN=ipvhost0**: Chỉ định rằng interface ảo có tên \`ipvhost0\` (được định nghĩa trong file \`.netdev\` tiếp theo) sẽ được gắn (attach) vào card mạng vật lý này. Card vật lý giờ đây chỉ là cầu nối (trunk).
+  2. Tạo file `10-ipvhost0.netdev` (Định nghĩa interface ảo cho Host):
 
-2. Tạo file `10-ipvhost0.netdev` (Định nghĩa interface ảo cho Host):
+    ```bash
+    sudo nano /etc/systemd/network/10-ipvhost0.netdev
+    ```
+    
+    ```ini
+    [NetDev]
+    Name=ipvhost0
+    Kind=ipvlan
+    
+    [IPVLAN]
+    Mode=L2
+    ```
 
-```bash
-sudo nano /etc/systemd/network/10-ipvhost0.netdev
-```
+    #### [Giải thích File 10-ipvhost0.netdev]
+    
+    - **[NetDev]**: Khối định nghĩa một interface mạng mới.
+    - **Name=ipvhost0**: Tên logic của interface ảo.
+    - **Kind=ipvlan**: Loại interface là IPVLAN.
+    - **[IPVLAN]**: Khối cấu hình riêng cho IPVLAN.
+    - **Mode=L2**: Chế độ IPVLAN Layer 2. Đây là chế độ khuyến nghị cho VM, cho phép Host và Container giao tiếp trực tiếp trên cùng một IP subnet.
 
-```ini
-[NetDev]
-Name=ipvhost0
-Kind=ipvlan
+  3.  Tạo file `10-ipvhost0.network` (Gán IP tĩnh Host và Fix ổn định):
+    
+    ```bash
+    sudo nano /etc/systemd/network/10-ipvhost0.network
+    ```
+    
+    ```bash
+    [Match]
+    Name=ipvhost0
+    
+    [Network]
+    Address=192.168.1.61/24
+    Gateway=192.168.1.1
+    DNS=192.168.1.30
+    DNS=8.8.8.8
+    ```
 
-[IPVLAN]
-Mode=L2
-```
+    #### [Giải thích File 10-ipvhost0.network]
+    
+    - **[Match]**: Áp dụng cấu hình này cho interface ảo \`ipvhost0\`.
+    - **[Network]**: Cấu hình mạng.
+    - **Address=192.168.1.61/24**: Gán IP tĩnh cho Host. Đây là IP bạn sẽ dùng để SSH.
+    - **Gateway=192.168.1.1** Định nghĩa Gateway mặc định.
+    - **DNS=192.168.1.30**: Trỏ DNS Host về Technitium DNS Server Container (được tạo ở Bước 4).
 
-#### [Giải thích File 10-ipvhost0.netdev]
+  4.  Tạo mạng Docker IPVLAN (Trước khi reboot):
 
-- **[NetDev]**: Khối định nghĩa một interface mạng mới.
-- **Name=ipvhost0**: Tên logic của interface ảo.
-- **Kind=ipvlan**: Loại interface là IPVLAN.
-- **[IPVLAN]**: Khối cấu hình riêng cho IPVLAN.
-- **Mode=L2**: Chế độ IPVLAN Layer 2. Đây là chế độ khuyến nghị cho VM, cho phép Host và Container giao tiếp trực tiếp trên cùng một IP subnet.
+    ```bash
+    docker network create -d ipvlan \
+      --subnet=192.168.1.0/24 \
+      --gateway=192.168.1.1 \
+      -o parent=ens160 \
+      -o ipvlan_mode=l2 \
+      VLAN110
+    ```
 
-3.  Tạo file `10-ipvhost0.network` (Gán IP tĩnh Host và Fix ổn định):
+  5.  Khởi động lại (Reboot) để áp dụng toàn bộ cấu hình mạng Systemd:
 
-```bash
-sudo nano /etc/systemd/network/10-ipvhost0.network
-```
-
-```bash
-[Match]
-Name=ipvhost0
-
-[Network]
-Address=192.168.1.61/24
-Gateway=192.168.1.1
-DNS=192.168.1.30
-DNS=8.8.8.8
-```
-
-#### [Giải thích File 10-ipvhost0.network]
-
-- **[Match]**: Áp dụng cấu hình này cho interface ảo \`ipvhost0\`.
-- **[Network]**: Cấu hình mạng.
-- **Address=192.168.1.61/24**: Gán IP tĩnh cho Host. Đây là IP bạn sẽ dùng để SSH.
-- **Gateway=192.168.1.1** Định nghĩa Gateway mặc định.
-- **DNS=192.168.1.30**: Trỏ DNS Host về Technitium DNS Server Container (được tạo ở Bước 4).
-
-4.  Tạo mạng Docker IPVLAN (Trước khi reboot):
-
-```bash
-docker network create -d ipvlan \
-  --subnet=192.168.1.0/24 \
-  --gateway=192.168.1.1 \
-  -o parent=ens160 \
-  -o ipvlan_mode=l2 \
-  VLAN110
-```
-
-5.  Khởi động lại (Reboot) để áp dụng toàn bộ cấu hình mạng Systemd:
-
-```bash
-sudo reboot
-```
+    ```bash
+    sudo reboot
+    ```
 
 ---
 
