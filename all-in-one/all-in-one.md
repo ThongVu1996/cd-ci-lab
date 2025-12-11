@@ -1256,7 +1256,6 @@ Sau khi đã thành thạo “Cách 1”, bạn có thể nâng cấp pipeline �
     Đẩy thư mục k8s chứa các file này lên GitLab.
 
 - **Bước 2: Cài đặt kubectl trong Jenkins (Đã làm ở Dockerfile)**
-  - Bước 2: Cài đặt kubectl trong Jenkins (Đã làm ở Dockerfile)
   - Kiểm tra, đi vào container jenkins gõ lệnh kubectl
     ```
       iadmin@srv025-aio:~$ docker exec -it devops-jenkins-1 /bin/bash
