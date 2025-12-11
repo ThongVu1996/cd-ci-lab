@@ -1049,7 +1049,8 @@ Cấu hình Jenkins để nó "biết" về project và cách thực thi pipelin
 
    2. **Credential 2: Đăng nhập Registry (Dùng PAT)**
 
-      Jenkins cần credential này để chạy `docker login register.thongdev.site` (ở Giai đoạn 5).
+      Jenkins cần credential này để chạy `docker login register.thongdev.site` (ở Giai đoạn 5) và cần nó để có thể push registry lên gitlab ở bước 2.5 như ảnh
+      <image src ="./44.png">
       - Vào GitLab (user `root`), tạo PAT mới (hoặc dùng PAT cũ). Đặt tên `jenkins-registry-token`.
       - **Scopes (BẮT BUỘC):** Tick chọn **`read_registry`** VÀ **`write_registry`** . Copy token.
       - Vào Jenkins `Manage Jenkins` -&gt; `Credentials` -&gt; `(global)`.
