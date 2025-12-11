@@ -1,11 +1,15 @@
 # **Cài đặt Argo CD trên Kubernetes (K8S)**
 
+---
+
 ## **1. Giới thiệu về Argo CD**
 
 - Argo CD là một công cụ **Continuous Delivery (CD)** dành cho Kubernetes, được xây dựng theo triết lý **GitOps**. Thay vì chạy lệnh kubectl apply thủ công, Argo CD sẽ tự động đồng bộ (sync) trạng thái thực tế của cluster với trạng thái mong muốn được khai báo trong Git repository.
 - Argo CD chỉ làm nhiệm vụ CD (không build image, không chạy test).
 - CI (build image, chạy test, push image…) bạn thường dùng Jenkins, GitLab CI, GitHub Actions… để làm.
 - Argo CD sẽ pull manifest từ Git và tự động deploy/update ứng dụng lên cluster K8S.
+
+--- 
 
 ## **2. Yêu cầu chuẩn bị (Prerequisites)**
 
@@ -18,7 +22,9 @@
   ```
   <image src="./2.png">
 - Nên có sẵn Ingress Nginx nếu bạn muốn truy cập Argo CD qua domain (có thể xem lại bài hướng dẫn Ingress của bạn).
-  
+
+--- 
+
 ## **3. Các bước cài đặt chi tiết**
 
 - **Bước 1**:
@@ -72,6 +78,8 @@
   ```
      kubectl rollout restart deployment argocd-server -n argocd
   ```
+  
+--- 
 
  **Bước 4**: Cấu hình dns, npm
  - Cấu hình dns như hình
