@@ -172,7 +172,7 @@
           # Click vào role thongdev_EKS_Worker để lấy 
           instanceRoleARN: "arn:aws:iam::605695176329:role/thongdev_EKS_Worker" 
     ```
-  - Đứng tại thư mục `$HOME/Devops/aws-thongdev` chạy lệnh
+  - Đứng tại thư mục `$HOME/Devops/aws-thongdev` chạy lệnh (ở trên máy macOS)
     ```
       eksctl create cluster -f thongdev-cluster-v1.yaml
     ```
