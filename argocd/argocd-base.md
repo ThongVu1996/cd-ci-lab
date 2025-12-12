@@ -51,7 +51,7 @@
 
 ## **2. Yêu cầu chuẩn bị (Prerequisites)**
 
-- Chúng ta đã có cụm k8s, gitlab, dns, npm, jenkins từ bài [all-in-one](https://github.com/ThongVu1996/cd-ci-lab/blob/master/all-in-one/all-in-one.md)
+  - Chúng ta đã có cụm k8s, gitlab, dns, npm, jenkins từ bài [all-in-one](https://github.com/ThongVu1996/cd-ci-lab/blob/master/all-in-one/all-in-one.md)
 
 - Chúng ta đã cài thành công Argocd theo hướng dẫn [tại đây](https://github.com/ThongVu1996/cd-ci-lab/blob/master/argocd/install.md)
 
