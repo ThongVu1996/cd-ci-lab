@@ -253,6 +253,7 @@
   
   ### **3.2 Tạo app trên Argocd**
     - Vào Applications -> NEW APP
+      
     - Điền các thông tin sau:
       - Application name: chỉ bao gồm chữ thường
       - Project Name: default
