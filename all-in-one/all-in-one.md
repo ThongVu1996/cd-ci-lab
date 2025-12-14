@@ -3,7 +3,7 @@
 - [🎯 Mục tiêu bài Lab](#mục-tiêu-bài-lab)
 - [Sơ đồ Luồng hoạt động](#sơ-đồ-luồng-hoạt-động)
 - [📂 Cấu trúc Thư mục Chuẩn bị](#cấu-trúc-thư-mục-chuẩn-bị)
-  - [🤔 Tại sao lại chọn `/opt/devcom/` ?](#tại-sao-lại-chọn-optdevcom)
+  - [🤔 Tại sao lại chọn `/opt/devcom/` ?](#️-tại-sao-lại-chọn-optdevcom)
     - [⚠️ Tránh dùng (Avoid)](#️-tránh-dùng-avoid)
   - [Kết luận (Conclusion)](#kết-luận-conclusion)
 - [Giai đoạn 0: Cài đặt Hạ tầng (The Foundation) 🛠️](#giai-đoạn-0-cài-đặt-hạ-tầng-the-foundation-️)
