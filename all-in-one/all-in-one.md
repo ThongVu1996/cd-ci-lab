@@ -1,5 +1,33 @@
 # <center> CI/CD all in one với docker host </center>
 
+- [🎯 Mục tiêu bài Lab](#mục-tiêu-bài-lab)
+- [Sơ đồ Luồng hoạt động](#sơ-đồ-luồng-hoạt-động)
+- [📂 Cấu trúc Thư mục Chuẩn bị](#cấu-trúc-thư-mục-chuẩn-bị)
+  - [🤔 Tại sao lại chọn `/opt/devcom/` ?](#tại-sao-lại-chọn-optdevcom)
+    - [⚠️ Tránh dùng (Avoid)](#⚠️-tránh-dùng-avoid)
+  - [Kết luận (Conclusion)](#kết-luận-conclusion)
+- [Giai đoạn 0: Cài đặt Hạ tầng (The Foundation) 🛠️](#giai-đoạn-0-cài-đặt-hạ-tầng-the-foundation-️)
+  - [Bước 1: Cài đặt Docker Engine (Điều kiện tiên quyết)](#bước-1-cài-đặt-docker-engine-điều-kiện-tiên-quyết)
+  - [Bước 2: Chuẩn bị Mạng Nền (IPVLAN hoặc MACVLAN)](#bước-2-chuẩn-bị-mạng-nền-ipvlan-hoặc-macvlan)
+  - [Bước 3: Tạo file `jenkins/Dockerfile`](#bước-3-tạo-file-jenkinsdockerfile)
+  - [Bước 4: Tạo file `docker-compose.yml`](#bước-4-tạo-file-docker-composeyml)
+    - [🧠 KIẾN THỨC CHUYÊN SÂU: Cơ chế Docker DNS & Lỗi "Hairpinning"](#kiến-thức-chuyên-sâu-cơ-chế-docker-dns-lỗi-hairpinning)
+  - [Bước 5: Khởi chạy Lần đầu & Cấu hình `gitlab.rb`](#bước-5-khởi-chạy-lần-đầu-cấu-hình-gitlabrb)
+  - [Bước 6: Cấu hình Mạng (DNS và NPM)](#bước-6-cấu-hình-mạng-dns-và-npm)
+- [Giai đoạn 1: GitLab (Nơi chứa Code) 📝](#giai-đoạn-1-gitlab-nơi-chứa-code)
+- [Giai đoạn 2: Jenkins (Nơi Build)](#giai-đoạn-2-jenkins-nơi-build)
+- [Giai đoạn 3: Kết nối Webhook (Trigger) 🔗](#giai-đoạn-3-kết-nối-webhook-trigger)
+    - [⚠️ Khắc phục lỗi: "Invalid url given"](#⚠️-khắc-phục-lỗi-invalid-url-given)
+- [Giai đoạn 4: Chạy Thử & Kiểm Tra (Deploy Docker Host) 🚀](#giai-đoạn-4-chạy-thử-kiểm-tra-deploy-docker-host)
+- [Giai đoạn 5: Triển khai lên Kubernetes](#giai-đoạn-5-triển-khai-lên-kubernetes)
+- [Giai đoạn 6: Public hệ thống qua Zero trust của Cloudflare](#giai-đoạn-6-public-hệ-thống-qua-zero-trust-của-cloudflare)
+
+
+
+<!-- toc -->
+
+
+
 ## 🎯 Mục tiêu bài Lab
 
 - Bài lab này hướng dẫn chi tiết cách xây dựng luồng CI/CD "Cách 1: All-in-One" hoàn chỉnh, deploy ứng dụng (frontend + backend) lên Docker host. Lab này bao gồm cấu hình mạng MACVLAN bền vững, DNS tập trung, Reverse Proxy (NPM) với SSL, và quy trình build/deploy tự động có bước phê duyệt thủ công.
@@ -1477,4 +1505,148 @@ Sửa lại Jenkinsfile trong project corejs.
   <image src="./41.png">
 - Điền các thông tin cần thiết
   <image src="./42.png">
-  
+
+
+- [🎯 Mục tiêu bài Lab](#mục-tiêu-bài-lab)
+- [Sơ đồ Luồng hoạt động](#sơ-đồ-luồng-hoạt-động)
+- [📂 Cấu trúc Thư mục Chuẩn bị](#cấu-trúc-thư-mục-chuẩn-bị)
+  - [🤔 Tại sao lại chọn `/opt/devcom/` ?](#tại-sao-lại-chọn-optdevcom)
+    - [⚠️ Tránh dùng (Avoid)](#⚠️-tránh-dùng-avoid)
+  - [Kết luận (Conclusion)](#kết-luận-conclusion)
+- [Giai đoạn 0: Cài đặt Hạ tầng (The Foundation) 🛠️](#giai-đoạn-0-cài-đặt-hạ-tầng-the-foundation-️)
+  - [Bước 1: Cài đặt Docker Engine (Điều kiện tiên quyết)](#bước-1-cài-đặt-docker-engine-điều-kiện-tiên-quyết)
+  - [Bước 2: Chuẩn bị Mạng Nền (IPVLAN hoặc MACVLAN)](#bước-2-chuẩn-bị-mạng-nền-ipvlan-hoặc-macvlan)
+  - [Bước 3: Tạo file `jenkins/Dockerfile`](#bước-3-tạo-file-jenkinsdockerfile)
+  - [Bước 4: Tạo file `docker-compose.yml`](#bước-4-tạo-file-docker-composeyml)
+    - [🧠 KIẾN THỨC CHUYÊN SÂU: Cơ chế Docker DNS & Lỗi "Hairpinning"](#kiến-thức-chuyên-sâu-cơ-chế-docker-dns-lỗi-hairpinning)
+  - [Bước 5: Khởi chạy Lần đầu & Cấu hình `gitlab.rb`](#bước-5-khởi-chạy-lần-đầu-cấu-hình-gitlabrb)
+  - [Bước 6: Cấu hình Mạng (DNS và NPM)](#bước-6-cấu-hình-mạng-dns-và-npm)
+- [Giai đoạn 1: GitLab (Nơi chứa Code) 📝](#giai-đoạn-1-gitlab-nơi-chứa-code)
+- [Giai đoạn 2: Jenkins (Nơi Build)](#giai-đoạn-2-jenkins-nơi-build)
+- [Giai đoạn 3: Kết nối Webhook (Trigger) 🔗](#giai-đoạn-3-kết-nối-webhook-trigger)
+    - [⚠️ Khắc phục lỗi: "Invalid url given"](#⚠️-khắc-phục-lỗi-invalid-url-given)
+- [Giai đoạn 4: Chạy Thử & Kiểm Tra (Deploy Docker Host) 🚀](#giai-đoạn-4-chạy-thử-kiểm-tra-deploy-docker-host)
+- [Giai đoạn 5: Triển khai lên Kubernetes](#giai-đoạn-5-triển-khai-lên-kubernetes)
+- [Giai đoạn 6: Public hệ thống qua Zero trust của Cloudflare](#giai-đoạn-6-public-hệ-thống-qua-zero-trust-của-cloudflare)
+
+
+
+- [🎯 Mục tiêu bài Lab](#mục-tiêu-bài-lab)
+- [Sơ đồ Luồng hoạt động](#sơ-đồ-luồng-hoạt-động)
+- [📂 Cấu trúc Thư mục Chuẩn bị](#cấu-trúc-thư-mục-chuẩn-bị)
+  - [🤔 Tại sao lại chọn `/opt/devcom/` ?](#tại-sao-lại-chọn-optdevcom)
+    - [⚠️ Tránh dùng (Avoid)](#⚠️-tránh-dùng-avoid)
+  - [Kết luận (Conclusion)](#kết-luận-conclusion)
+- [Giai đoạn 0: Cài đặt Hạ tầng (The Foundation) 🛠️](#giai-đoạn-0-cài-đặt-hạ-tầng-the-foundation-️)
+  - [Bước 1: Cài đặt Docker Engine (Điều kiện tiên quyết)](#bước-1-cài-đặt-docker-engine-điều-kiện-tiên-quyết)
+  - [Bước 2: Chuẩn bị Mạng Nền (IPVLAN hoặc MACVLAN)](#bước-2-chuẩn-bị-mạng-nền-ipvlan-hoặc-macvlan)
+  - [Bước 3: Tạo file `jenkins/Dockerfile`](#bước-3-tạo-file-jenkinsdockerfile)
+  - [Bước 4: Tạo file `docker-compose.yml`](#bước-4-tạo-file-docker-composeyml)
+    - [🧠 KIẾN THỨC CHUYÊN SÂU: Cơ chế Docker DNS & Lỗi "Hairpinning"](#kiến-thức-chuyên-sâu-cơ-chế-docker-dns-lỗi-hairpinning)
+  - [Bước 5: Khởi chạy Lần đầu & Cấu hình `gitlab.rb`](#bước-5-khởi-chạy-lần-đầu-cấu-hình-gitlabrb)
+  - [Bước 6: Cấu hình Mạng (DNS và NPM)](#bước-6-cấu-hình-mạng-dns-và-npm)
+- [Giai đoạn 1: GitLab (Nơi chứa Code) 📝](#giai-đoạn-1-gitlab-nơi-chứa-code)
+- [Giai đoạn 2: Jenkins (Nơi Build)](#giai-đoạn-2-jenkins-nơi-build)
+- [Giai đoạn 3: Kết nối Webhook (Trigger) 🔗](#giai-đoạn-3-kết-nối-webhook-trigger)
+    - [⚠️ Khắc phục lỗi: "Invalid url given"](#⚠️-khắc-phục-lỗi-invalid-url-given)
+- [Giai đoạn 4: Chạy Thử & Kiểm Tra (Deploy Docker Host) 🚀](#giai-đoạn-4-chạy-thử-kiểm-tra-deploy-docker-host)
+- [Giai đoạn 5: Triển khai lên Kubernetes](#giai-đoạn-5-triển-khai-lên-kubernetes)
+- [Giai đoạn 6: Public hệ thống qua Zero trust của Cloudflare](#giai-đoạn-6-public-hệ-thống-qua-zero-trust-của-cloudflare)
+
+
+
+- [🎯 Mục tiêu bài Lab](#mục-tiêu-bài-lab)
+- [Sơ đồ Luồng hoạt động](#sơ-đồ-luồng-hoạt-động)
+- [📂 Cấu trúc Thư mục Chuẩn bị](#cấu-trúc-thư-mục-chuẩn-bị)
+  - [🤔 Tại sao lại chọn `/opt/devcom/` ?](#tại-sao-lại-chọn-optdevcom)
+    - [⚠️ Tránh dùng (Avoid)](#⚠️-tránh-dùng-avoid)
+  - [Kết luận (Conclusion)](#kết-luận-conclusion)
+- [Giai đoạn 0: Cài đặt Hạ tầng (The Foundation) 🛠️](#giai-đoạn-0-cài-đặt-hạ-tầng-the-foundation-️)
+  - [Bước 1: Cài đặt Docker Engine (Điều kiện tiên quyết)](#bước-1-cài-đặt-docker-engine-điều-kiện-tiên-quyết)
+  - [Bước 2: Chuẩn bị Mạng Nền (IPVLAN hoặc MACVLAN)](#bước-2-chuẩn-bị-mạng-nền-ipvlan-hoặc-macvlan)
+  - [Bước 3: Tạo file `jenkins/Dockerfile`](#bước-3-tạo-file-jenkinsdockerfile)
+  - [Bước 4: Tạo file `docker-compose.yml`](#bước-4-tạo-file-docker-composeyml)
+    - [🧠 KIẾN THỨC CHUYÊN SÂU: Cơ chế Docker DNS & Lỗi "Hairpinning"](#kiến-thức-chuyên-sâu-cơ-chế-docker-dns-lỗi-hairpinning)
+  - [Bước 5: Khởi chạy Lần đầu & Cấu hình `gitlab.rb`](#bước-5-khởi-chạy-lần-đầu-cấu-hình-gitlabrb)
+  - [Bước 6: Cấu hình Mạng (DNS và NPM)](#bước-6-cấu-hình-mạng-dns-và-npm)
+- [Giai đoạn 1: GitLab (Nơi chứa Code) 📝](#giai-đoạn-1-gitlab-nơi-chứa-code)
+- [Giai đoạn 2: Jenkins (Nơi Build)](#giai-đoạn-2-jenkins-nơi-build)
+- [Giai đoạn 3: Kết nối Webhook (Trigger) 🔗](#giai-đoạn-3-kết-nối-webhook-trigger)
+    - [⚠️ Khắc phục lỗi: "Invalid url given"](#⚠️-khắc-phục-lỗi-invalid-url-given)
+- [Giai đoạn 4: Chạy Thử & Kiểm Tra (Deploy Docker Host) 🚀](#giai-đoạn-4-chạy-thử-kiểm-tra-deploy-docker-host)
+- [Giai đoạn 5: Triển khai lên Kubernetes](#giai-đoạn-5-triển-khai-lên-kubernetes)
+- [Giai đoạn 6: Public hệ thống qua Zero trust của Cloudflare](#giai-đoạn-6-public-hệ-thống-qua-zero-trust-của-cloudflare)
+
+
+
+- [🎯 Mục tiêu bài Lab](#mục-tiêu-bài-lab)
+- [Sơ đồ Luồng hoạt động](#sơ-đồ-luồng-hoạt-động)
+- [📂 Cấu trúc Thư mục Chuẩn bị](#cấu-trúc-thư-mục-chuẩn-bị)
+  - [🤔 Tại sao lại chọn `/opt/devcom/` ?](#tại-sao-lại-chọn-optdevcom)
+    - [⚠️ Tránh dùng (Avoid)](#⚠️-tránh-dùng-avoid)
+  - [Kết luận (Conclusion)](#kết-luận-conclusion)
+- [Giai đoạn 0: Cài đặt Hạ tầng (The Foundation) 🛠️](#giai-đoạn-0-cài-đặt-hạ-tầng-the-foundation-️)
+  - [Bước 1: Cài đặt Docker Engine (Điều kiện tiên quyết)](#bước-1-cài-đặt-docker-engine-điều-kiện-tiên-quyết)
+  - [Bước 2: Chuẩn bị Mạng Nền (IPVLAN hoặc MACVLAN)](#bước-2-chuẩn-bị-mạng-nền-ipvlan-hoặc-macvlan)
+  - [Bước 3: Tạo file `jenkins/Dockerfile`](#bước-3-tạo-file-jenkinsdockerfile)
+  - [Bước 4: Tạo file `docker-compose.yml`](#bước-4-tạo-file-docker-composeyml)
+    - [🧠 KIẾN THỨC CHUYÊN SÂU: Cơ chế Docker DNS & Lỗi "Hairpinning"](#kiến-thức-chuyên-sâu-cơ-chế-docker-dns-lỗi-hairpinning)
+  - [Bước 5: Khởi chạy Lần đầu & Cấu hình `gitlab.rb`](#bước-5-khởi-chạy-lần-đầu-cấu-hình-gitlabrb)
+  - [Bước 6: Cấu hình Mạng (DNS và NPM)](#bước-6-cấu-hình-mạng-dns-và-npm)
+- [Giai đoạn 1: GitLab (Nơi chứa Code) 📝](#giai-đoạn-1-gitlab-nơi-chứa-code)
+- [Giai đoạn 2: Jenkins (Nơi Build)](#giai-đoạn-2-jenkins-nơi-build)
+- [Giai đoạn 3: Kết nối Webhook (Trigger) 🔗](#giai-đoạn-3-kết-nối-webhook-trigger)
+    - [⚠️ Khắc phục lỗi: "Invalid url given"](#⚠️-khắc-phục-lỗi-invalid-url-given)
+- [Giai đoạn 4: Chạy Thử & Kiểm Tra (Deploy Docker Host) 🚀](#giai-đoạn-4-chạy-thử-kiểm-tra-deploy-docker-host)
+- [Giai đoạn 5: Triển khai lên Kubernetes](#giai-đoạn-5-triển-khai-lên-kubernetes)
+- [Giai đoạn 6: Public hệ thống qua Zero trust của Cloudflare](#giai-đoạn-6-public-hệ-thống-qua-zero-trust-của-cloudflare)
+
+
+
+- [🎯 Mục tiêu bài Lab](#mục-tiêu-bài-lab)
+- [Sơ đồ Luồng hoạt động](#sơ-đồ-luồng-hoạt-động)
+- [📂 Cấu trúc Thư mục Chuẩn bị](#cấu-trúc-thư-mục-chuẩn-bị)
+  - [🤔 Tại sao lại chọn `/opt/devcom/` ?](#tại-sao-lại-chọn-optdevcom)
+    - [⚠️ Tránh dùng (Avoid)](#⚠️-tránh-dùng-avoid)
+  - [Kết luận (Conclusion)](#kết-luận-conclusion)
+- [Giai đoạn 0: Cài đặt Hạ tầng (The Foundation) 🛠️](#giai-đoạn-0-cài-đặt-hạ-tầng-the-foundation-️)
+  - [Bước 1: Cài đặt Docker Engine (Điều kiện tiên quyết)](#bước-1-cài-đặt-docker-engine-điều-kiện-tiên-quyết)
+  - [Bước 2: Chuẩn bị Mạng Nền (IPVLAN hoặc MACVLAN)](#bước-2-chuẩn-bị-mạng-nền-ipvlan-hoặc-macvlan)
+  - [Bước 3: Tạo file `jenkins/Dockerfile`](#bước-3-tạo-file-jenkinsdockerfile)
+  - [Bước 4: Tạo file `docker-compose.yml`](#bước-4-tạo-file-docker-composeyml)
+    - [🧠 KIẾN THỨC CHUYÊN SÂU: Cơ chế Docker DNS & Lỗi "Hairpinning"](#kiến-thức-chuyên-sâu-cơ-chế-docker-dns-lỗi-hairpinning)
+  - [Bước 5: Khởi chạy Lần đầu & Cấu hình `gitlab.rb`](#bước-5-khởi-chạy-lần-đầu-cấu-hình-gitlabrb)
+  - [Bước 6: Cấu hình Mạng (DNS và NPM)](#bước-6-cấu-hình-mạng-dns-và-npm)
+- [Giai đoạn 1: GitLab (Nơi chứa Code) 📝](#giai-đoạn-1-gitlab-nơi-chứa-code)
+- [Giai đoạn 2: Jenkins (Nơi Build)](#giai-đoạn-2-jenkins-nơi-build)
+- [Giai đoạn 3: Kết nối Webhook (Trigger) 🔗](#giai-đoạn-3-kết-nối-webhook-trigger)
+    - [⚠️ Khắc phục lỗi: "Invalid url given"](#⚠️-khắc-phục-lỗi-invalid-url-given)
+- [Giai đoạn 4: Chạy Thử & Kiểm Tra (Deploy Docker Host) 🚀](#giai-đoạn-4-chạy-thử-kiểm-tra-deploy-docker-host)
+- [Giai đoạn 5: Triển khai lên Kubernetes](#giai-đoạn-5-triển-khai-lên-kubernetes)
+- [Giai đoạn 6: Public hệ thống qua Zero trust của Cloudflare](#giai-đoạn-6-public-hệ-thống-qua-zero-trust-của-cloudflare)
+
+
+
+- [🎯 Mục tiêu bài Lab](#mục-tiêu-bài-lab)
+- [Sơ đồ Luồng hoạt động](#sơ-đồ-luồng-hoạt-động)
+- [📂 Cấu trúc Thư mục Chuẩn bị](#cấu-trúc-thư-mục-chuẩn-bị)
+  - [🤔 Tại sao lại chọn `/opt/devcom/` ?](#tại-sao-lại-chọn-optdevcom)
+    - [⚠️ Tránh dùng (Avoid)](#⚠️-tránh-dùng-avoid)
+  - [Kết luận (Conclusion)](#kết-luận-conclusion)
+- [Giai đoạn 0: Cài đặt Hạ tầng (The Foundation) 🛠️](#giai-đoạn-0-cài-đặt-hạ-tầng-the-foundation-️)
+  - [Bước 1: Cài đặt Docker Engine (Điều kiện tiên quyết)](#bước-1-cài-đặt-docker-engine-điều-kiện-tiên-quyết)
+  - [Bước 2: Chuẩn bị Mạng Nền (IPVLAN hoặc MACVLAN)](#bước-2-chuẩn-bị-mạng-nền-ipvlan-hoặc-macvlan)
+  - [Bước 3: Tạo file `jenkins/Dockerfile`](#bước-3-tạo-file-jenkinsdockerfile)
+  - [Bước 4: Tạo file `docker-compose.yml`](#bước-4-tạo-file-docker-composeyml)
+    - [🧠 KIẾN THỨC CHUYÊN SÂU: Cơ chế Docker DNS & Lỗi "Hairpinning"](#kiến-thức-chuyên-sâu-cơ-chế-docker-dns-lỗi-hairpinning)
+  - [Bước 5: Khởi chạy Lần đầu & Cấu hình `gitlab.rb`](#bước-5-khởi-chạy-lần-đầu-cấu-hình-gitlabrb)
+  - [Bước 6: Cấu hình Mạng (DNS và NPM)](#bước-6-cấu-hình-mạng-dns-và-npm)
+- [Giai đoạn 1: GitLab (Nơi chứa Code) 📝](#giai-đoạn-1-gitlab-nơi-chứa-code)
+- [Giai đoạn 2: Jenkins (Nơi Build)](#giai-đoạn-2-jenkins-nơi-build)
+- [Giai đoạn 3: Kết nối Webhook (Trigger) 🔗](#giai-đoạn-3-kết-nối-webhook-trigger)
+    - [⚠️ Khắc phục lỗi: "Invalid url given"](#⚠️-khắc-phục-lỗi-invalid-url-given)
+- [Giai đoạn 4: Chạy Thử & Kiểm Tra (Deploy Docker Host) 🚀](#giai-đoạn-4-chạy-thử-kiểm-tra-deploy-docker-host)
+- [Giai đoạn 5: Triển khai lên Kubernetes](#giai-đoạn-5-triển-khai-lên-kubernetes)
+- [Giai đoạn 6: Public hệ thống qua Zero trust của Cloudflare](#giai-đoạn-6-public-hệ-thống-qua-zero-trust-của-cloudflare)
+
+
