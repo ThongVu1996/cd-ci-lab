@@ -4,7 +4,7 @@
 
 ## **Yêu cầu chuẩn bị (Prerequisites)**
 - ArgoCD: Cái này ta đã cài ở lab trước.
-- Harbor Registry: Xem hướng dẫn cài [tại đây](https://tonynguyen.top/harbor-registry-phan-1-cai-dat-harbor-registry-tren-ubuntu/)
+- Harbor Registry: Xem hướng dẫn cài [chip inter tại đây](https://tonynguyen.top/harbor-registry-phan-1-cai-dat-harbor-registry-tren-ubuntu/), [chip arm tại đây](./install-harbor.md) 
 
 ---
 ## Tư tưởng áp dụng 
