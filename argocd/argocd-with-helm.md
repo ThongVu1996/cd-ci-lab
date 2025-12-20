@@ -225,17 +225,17 @@ github thì việc lưu trữ docker images ta lại phải đưa lên dockerhub
   Kiểm tra [tại đây](https://github.com/ThongVu1996/corejs/tree/argocd-harbor)
   <image src ="./11.png">
 
-![helm-folder](./11.png)
-
-![manifest](./26.png)
+    ![helm-folder](./11.png)
+    
+    ![manifest](./26.png)
 - Bước 3: Tạo helm chart template trên Jenkins
 
   - Flow trong này sẽ là `github push code` -> `jenkins thấy check webhooks` -> `jenkins build` -> `push docker images và helm được tạo ra lên Harbor`.
-  ![Config Git For Jenkins](./12.png)
+    ![Config Git For Jenkins](./12.png)
 
-![Jenkinsfile](./13.png)
-
-![Build Success](./14.png)
+    ![Jenkinsfile](./13.png)
+    
+    ![Build Success](./14.png)
   
 
 - Bước 4: Triển khai với helm lưu trữ trên Harbor bằng ArgoCD
@@ -260,10 +260,10 @@ github thì việc lưu trữ docker images ta lại phải đưa lên dockerhub
       - **Tag**: Số tag (nếu muốn tự động sync được thì phải để tag dang *, eg: 0.1.\*)
       - **DESTINATION > Cluster URL** : Chọn **https://kubernetes.default.svc**
 
-![Cấu hình app 01](./27.png)
+      ![Cấu hình app 01](./27.png)
     - ArgoCD đã triển khai lên cụm K8S thành công
 
-![Kết quả ](./28.png)
-
-
-![Detail](./29.png)
+      ![Kết quả ](./28.png)
+      
+      
+      ![Detail](./29.png)
