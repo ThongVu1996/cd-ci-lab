@@ -156,6 +156,10 @@ github thì việc lưu trữ docker images ta lại phải đưa lên dockerhub
 ---
 
 ## **Cấu hình Harbor & Push Chart**
+- Chuẩn bị token cho harbor (dùng ở `HARBOR_CREDS_ID   = 'harbor-registry-creds'` Jenkinfile)
+  - Vào trong Roboot Account và tạo token -> copy token đó rồi tạo creditial trong Jenkins
+
+    ![Robot Account](./34.png)
 - Bước 1: Tạo repo helm trên Harbor
   - Login vào Harbor sau đó vào Projects > New Project.
     <image src ="./7.png">
@@ -234,14 +238,11 @@ github thì việc lưu trữ docker images ta lại phải đưa lên dockerhub
     ![Jenkinsfile](./13.png)
     
     ![Build Success](./14.png)
-    
-![Kết quả images và helm trên harbor](./30.png)
-
-![manifest](./31.png)
-
-
-![docker-images-be](./33.png)
-![docker-images-fe](./32.png)
+  - Kết quả trên harbor   
+    ![Kết quả images và helm trên harbor](./30.png)
+    ![manifest](./31.png)
+    ![docker-images-be](./33.png)
+    ![docker-images-fe](./32.png)
 
 - Bước 4: Triển khai với helm lưu trữ trên Harbor bằng ArgoCD
   - 4.1: Tạo repo connect
