@@ -223,8 +223,6 @@ github thì việc lưu trữ docker images ta lại phải đưa lên dockerhub
     ```
 - Bước 2: Đưa các thành phần triển khai lên git
   Kiểm tra [tại đây](https://github.com/ThongVu1996/corejs/tree/argocd-harbor)
-  <image src ="./11.png">
-
     ![helm-folder](./11.png)
     
     ![manifest](./26.png)
@@ -236,7 +234,14 @@ github thì việc lưu trữ docker images ta lại phải đưa lên dockerhub
     ![Jenkinsfile](./13.png)
     
     ![Build Success](./14.png)
-  
+    
+![Kết quả images và helm trên harbor](./30.png)
+
+![manifest](./31.png)
+
+
+![docker-images-be](./33.png)
+![docker-images-fe](./32.png)
 
 - Bước 4: Triển khai với helm lưu trữ trên Harbor bằng ArgoCD
   - 4.1: Tạo repo connect
