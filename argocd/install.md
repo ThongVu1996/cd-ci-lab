@@ -43,7 +43,7 @@
 
  **Bước 3**: Cấu hình Ingress cho ArgoCD
  - Bạn tiến hành tạo nội dung yaml triển khai file argocd-ingress.yaml trong thư mục home của máy chủ k8s-master-1 với nội dung:
-   ```
+   ```bash
       apiVersion: networking.k8s.io/v1
       kind: Ingress
       metadata:
@@ -69,11 +69,25 @@
                   number: 80 # HTTP port of the service
    ```
 
-- Do ta đang chạy ssl bằng self-cert lên ta sẽ cấu hình đẻ cho phép inscure chạy bằng lệnh
-  ```
+- Do ta đang chạy ssl bằng self-cert lên ta sẽ cấu hình để cho phép inscure chạy bằng lệnh (tức là NPM có thể kết nối vờia ArgoCD qua cổng http)
+  ```bash
     kubectl patch configmap argocd-cmd-params-cm -n argocd -p '{"data":{"server.insecure":"true"}}'
   ```
+- Lấy mật khẩu admin 
+```bash
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
 
+```
+- Dọn dẹp các Pod (rác)
+```bash
+kubectl delete pod -n argocd --field-selector=status.phase==Succeeded
+
+```
+- Xem cổng của argocd
+```bash
+kubectl get svc argocd-server -n argocd
+
+```
 - Khởi động lại (Restart) Argo CD Server
   ```
      kubectl rollout restart deployment argocd-server -n argocd
@@ -88,3 +102,71 @@
    <image src ="./5.png">
  - Truy cập vào argocd bằng link [argocd](https://argocd.thongdev.site)
    <image src ="./6.png">
+
+---
+
+## Gỡ cài đặt
+- Tạo file nuke.sh 
+```bash 
+#!/usr/bin/env bash
+set -euo pipefail
+
+NS=argocd
+
+echo "🔥 NUKE ArgoCD starting..."
+
+echo "👉 Deleting workloads..."
+kubectl delete deploy,statefulset,daemonset -n $NS --all --ignore-not-found
+kubectl delete pod -n $NS --all --force --grace-period=0 --ignore-not-found
+
+echo "👉 Deleting services..."
+kubectl delete svc -n $NS --all --ignore-not-found
+
+echo "👉 Deleting serviceaccounts..."
+kubectl delete sa -n $NS --all --ignore-not-found
+
+echo "👉 Deleting applications (if CRD exists)..."
+kubectl get crd applications.argoproj.io >/dev/null 2>&1 && \
+kubectl delete application --all -A || true
+
+echo "👉 Deleting webhooks..."
+kubectl delete validatingwebhookconfiguration,mutatingwebhookconfiguration \
+-l app.kubernetes.io/part-of=argocd --ignore-not-found
+
+echo "👉 Deleting cluster RBAC..."
+kubectl delete clusterrole,clusterrolebinding \
+-l app.kubernetes.io/part-of=argocd --ignore-not-found
+kubectl delete clusterrolebinding argocd-server-admin --ignore-not-found
+
+echo "👉 Deleting CRDs..."
+kubectl delete crd \
+applications.argoproj.io \
+applicationsets.argoproj.io \
+appprojects.argoproj.io \
+--ignore-not-found
+
+echo "👉 Deleting namespace..."
+kubectl delete namespace $NS --ignore-not-found || true
+
+sleep 2
+
+if kubectl get namespace $NS >/dev/null 2>&1; then
+  echo "⚠ Namespace stuck, forcing finalizers..."
+  kubectl get namespace $NS -o json \
+  | jq '.spec.finalizers=[]' \
+  | kubectl replace --raw "/api/v1/namespaces/$NS/finalize" -f -
+fi
+
+echo "✅ ArgoCD nuked successfully."
+```
+- Cấp quyền 
+```bash 
+chmod +x nuke.sh 
+./nuke.sh
+```
+
+- Kiểm tra lại bằng lệnh sau, nếu không trả ra kết quả gì tức là gỡ xong
+```bash 
+kubectl get all,sa,crd,clusterrole,clusterrolebinding,validatingwebhookconfiguration,mutatingwebhookconfiguration -A | grep -i argocd
+
+```

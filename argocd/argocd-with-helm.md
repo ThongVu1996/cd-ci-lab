@@ -11,7 +11,7 @@
 - Như trong bài trước [argocd-base](./argocd-base.md), chúng tả sử dụng gitlab để lưu trữ registry cho docker image
 và để lưu trữ các manifest (file yaml) cho k8s. Nhưng nhiều không phải lúc nào code cũng ở trên gitlab, có thể ở trên
 github thì việc lưu trữ docker images ta lại phải đưa lên dockerhub để public thì không tốt.
-- Chính vì đó ở bài này chúng ta sẽ sefl-host Harbor để làm nơi lưu trữ các manifest cùng với các docker images.
+- Chính vì đó ở bài này chúng ta sẽ sefl-host Harbor để làm nơi lưu trữ các manifest được đóng gói bằng `helm`, cùng với các docker images. 
 - Như vậy ở bài này là Jenkins chỉ dừng lại ở việc build images, sau đó đẩy images và các manifest lên Harbor.
 - Sau đó ArgoCD sẽ pull images và manifest để deploy lên trên k8s.
 
