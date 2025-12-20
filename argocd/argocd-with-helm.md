@@ -5,7 +5,12 @@
 ## **Yêu cầu chuẩn bị (Prerequisites)**
 - ArgoCD: Cái này ta đã cài ở lab trước.
 - Harbor Registry: Xem hướng dẫn cài [chip inter tại đây](https://tonynguyen.top/harbor-registry-phan-1-cai-dat-harbor-registry-tren-ubuntu/), [chip arm tại đây](./install-harbor.md) 
-
+- Cả việc cài cho chip inter hay chip arm đều cần sửa đoạn 
+```bash
+# thay harbor.thongdev.site bằng domain của bạn nhưng vẫn phải có https
+external_url: https://harbor.thongdev.site
+ 
+ ``` 
 ---
 ## Tư tưởng áp dụng 
 - Như trong bài trước [argocd-base](./argocd-base.md), chúng tả sử dụng gitlab để lưu trữ registry cho docker image
@@ -217,14 +222,20 @@ github thì việc lưu trữ docker images ta lại phải đưa lên dockerhub
             && mv linux-amd64/helm /helm
     ```
 - Bước 2: Đưa các thành phần triển khai lên git
-  Kiểm tra [tại đây](https://github.com/ThongVu1996/nginx-loadbalancer-web-ui)
+  Kiểm tra [tại đây](https://github.com/ThongVu1996/corejs/tree/argocd-harbor)
   <image src ="./11.png">
 
+![helm-folder](/Users/thongvu/DevOps/documents/cd-ci-lab/argocd/11.png)
+
+![manifest](/Users/thongvu/DevOps/documents/cd-ci-lab/argocd/26.png)
 - Bước 3: Tạo helm chart template trên Jenkins
-  <image src ="./12.png">
-  - Với JenkinsfileHelmHarbor.txt thì flow sẽ là: listen webhook từ git -> đóng gói docker image -> đưa lên Harbor Registry. Sau đó tiếp tục tạo Helm Template nếu chưa có -> và tiến hành đưa các nội dung của template dành riêng cho dự án từ thư mục helm ở trên git đưa vào values và template -> Đóng gói helm lại -> Push lên Helm Harbor Registry.
-  <image src ="./13.png">
-  <image src ="./14.png">
+
+  - Flow trong này sẽ là `github push code` -> `jenkins thấy check webhooks` -> `jenkins build` -> `push docker images và helm được tạo ra lên Harbor`.
+  ![Config Git For Jenkins](/Users/thongvu/DevOps/documents/cd-ci-lab/argocd/12.png)
+
+![Jenkinsfile](/Users/thongvu/DevOps/documents/cd-ci-lab/argocd/13.png)
+
+![Build Success](/Users/thongvu/DevOps/documents/cd-ci-lab/argocd/14.png)
   
 
 - Bước 4: Triển khai với helm lưu trữ trên Harbor bằng ArgoCD
@@ -246,7 +257,13 @@ github thì việc lưu trữ docker images ta lại phải đưa lên dockerhub
       - **Project Name**: Chọn **default**
       - **SYNC POLICY**: Automatic sau đó chọn **ENABLE  AUTO-SYNC** và **SELF HEAL**
       - **Chart**: Tên chart
-      - **Tag**: Số tag 
+      - **Tag**: Số tag (nếu muốn tự động sync được thì phải để tag dang *, eg: 0.1.\*)
       - **DESTINATION > Cluster URL** : Chọn **https://kubernetes.default.svc**
+
+![Cấu hình app 01](/Users/thongvu/DevOps/documents/cd-ci-lab/argocd/27.png)
     - ArgoCD đã triển khai lên cụm K8S thành công
-    
+
+![Kết quả ](/Users/thongvu/DevOps/documents/cd-ci-lab/argocd/28.png)
+
+
+![Detail](/Users/thongvu/DevOps/documents/cd-ci-lab/argocd/29.png)

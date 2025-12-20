@@ -251,7 +251,18 @@
       REPO_CREDENTIAL_ID     = 'gitlab-repository-creds'**, đây là 2 token. được tạo ra (xem cách tạo [tại đây](https://github.com/ThongVu1996/cd-ci-lab/blob/master/all-in-one/all-in-one.md)) lần lượt với các quyền tương tác với repo và registry
     - Ngoài ra cần chỉ định đúng nhánh bằng biến **BRANCH_NAME**  
   
-  ### **3.2 Tạo app trên Argocd**
+  ### 3.2 Tạo kết nối tới repo gitlab
+  - Vì repo trên gitlab là private, nên cần tạo kết nối để giúp ArgoCD pull code từ gitlab về bằng access-toke
+  - Vào `Settings` -> `+CONNECT REPO`
+
+    ![Tạo connect repo](/Users/thongvu/DevOps/documents/cd-ci-lab/argocd/26.png)
+- Điền cá thống tin như hình
+
+    ![Thông tin kết nối Repo](/Users/thongvu/DevOps/documents/cd-ci-lab/argocd/27.png)
+  - Điền password là access token có quyền truy cập đến repo (ở trên đã nói cách tạo)
+  - Vào như hình để tạo app
+  - Nếu mà repo là public thì bỏ qua bước 3.2 này
+  ### **3.3 Tạo app trên Argocd**
     - Vào Applications -> NEW APP
       
     - Điền các thông tin sau:

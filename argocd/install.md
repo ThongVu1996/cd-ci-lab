@@ -23,9 +23,17 @@
   <image src="./2.png">
 - Nên có sẵn Ingress Nginx nếu bạn muốn truy cập Argo CD qua domain (có thể xem lại bài hướng dẫn Ingress của bạn).
 
+---
+
+## 3. Tạo kết nối tới GitLab
+  - Vì gitlab là repo private nên cần tạo kết nối này nhằm cung cấp quyền truy cập repo bằng token 
+- Vào `Settings` -> `+CONNECT REPO` -> Điển các thông tin như ảnh
+  
+![Tạo kết nối Repo mới](/Users/thongvu/DevOps/documents/cd-ci-lab/argocd/25.png)
+
 --- 
 
-## **3. Các bước cài đặt chi tiết**
+## **4. Các bước cài đặt chi tiết**
 
 - **Bước 1**:
   -  Tại máy k8s-master-1 (máy là master trong cụm k8s) bạn tiến hành chạy lệnh như bên dưới.  
@@ -105,7 +113,7 @@ kubectl get svc argocd-server -n argocd
 
 ---
 
-## Gỡ cài đặt
+## 5. Gỡ cài đặt
 - Tạo file nuke.sh 
 ```bash 
 #!/usr/bin/env bash
