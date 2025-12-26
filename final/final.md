@@ -2,7 +2,36 @@
 
 ---
 
-# Tổng quan dự án
+## Table of Content
+  - [Tổng quan dự án](#tổng-quan-dự-án)
+  - [Yêu cầu kỹ thuật](#yêu-cầu-kỹ-thuật)
+    - [Hạ tầng](#hạ-tầng)
+      - [On-Premise (DR Site)](#on-premise-dr-site)
+      - [Cloud (Primary Site)](#cloud-primary-site)
+    - [Quy trình CI/CD](#quy-trình-cicd)
+    - [Kịch bản DR](#kịch-bản-dr)
+    - [Dự án cần triển khai](#dự-án-cần-triển-khai)
+  - [Phân tích bài toán](#phân-tích-bài-toán)
+    - [Flow hoạt động về dữ liệu](#flow-hoạt-động-về-dữ-liệu)
+    - [Flow CI-CD](#flow-ci-cd)
+  - [Triển khai ở Local](#triển-khai-ở-local)
+    - [Cài đặt Cloudflare Agent](#cài-đặt-cloudflare-agent)
+    - [Cài đặt Nginx Ingress](#cài-đặt-nginx-ingress)
+    - [Thiết lập biến môi trường](#thiết-lập-biến-môi-trường)
+    - [Thiết lập jenkins](#thiết-lập-jenkins)
+    - [Kiểm tra Harbor](#kiểm-tra-harbor)
+    - [Kiểm tra ECR](#kiểm-tra-ecr)
+    - [Kiểm tra minifest github](#kiểm-tra-minifest-github)
+    - [Tiến hành sử dụng argoCD để deploy ứng dụng lên cụm K8s](#tiến-hành-sử-dụng-argocd-để-deploy-ứng-dụng-lên-cụm-k8s)
+  - [Triển khai ở Cloud](#triển-khai-ở-cloud)
+  - [Kịch bản DR](#kịch-bản-dr-1)
+    - [Phân tích](#phân-tích)
+    - [Thực hành](#thực-hành)
+  - [Phân tích chuyên sâu:](#phân-tích-chuyên-sâu)
+
+---
+
+## Tổng quan dự án
 - Công ty A yêu cầu xây dựng một hệ thống triển khai ứng dụng (CI/CD) đảm bảo tính sẵn sàng cao (High Availability) và khả năng phục hồi sau thảm họa (Disaster Recovery).
  - Hệ thống chính (Primary) chạy trên Cloud (AWS EKS) để phục vụ khách hàng toàn cầu với tốc độ cao.
  - Hệ thống dự phòng (DR Site) chạy tại văn phòng (On-Premise) để đề phòng trường hợp Cloud bị sập (Region Outage) hoặc đứt cáp quang biển.
@@ -10,39 +39,39 @@
 
 ---
 
-# Yêu cầu kỹ thuật
-## Hạ tầng
-### On-Premise (DR Site)
+## Yêu cầu kỹ thuật
+### Hạ tầng
+#### On-Premise (DR Site)
 - K8s Local (xem [tại đây]())
 - Jenkins, GitLab (xem [tại đây]())
 - Harbor (xem [tại đây với chip intel](https://tonynguyen.top/harbor-registry-phan-1-cai-dat-harbor-registry-tren-ubuntu/), [tại đây với chip arm](https://github.com/ThongVu1996/cd-ci-lab/blob/master/argocd/install-harbor.md))
 - Tài khoản CloudFlare và 1 tên miền 
-### Cloud (Primary Site)
+#### Cloud (Primary Site)
 - Cụm AWS EKS (xem [tại đây](https://github.com/ThongVu1996/cd-ci-lab/blob/master/aws/install.md) )
 - AWS ECR (xem [tại đây]())
 - Gihub Repo (xem [tại đây](https://github.com/ThongVu1996/lab-final))
 
-## Quy trình CI/CD 
+### Quy trình CI/CD 
 
  ![pipe-line-CI-CD](./pipeline.png)
 
 - Yêu cầu khi trong quá trình phát triển chỉ đưa lên local, khi thực sự release thì sẽ qua 1 bước kiểm duyệt và cần quyền approve của người có thẩm quyền. 
 - Sau khi được chấp thuận thì dự án deploy lên AWS
 
-## Kịch bản DR 
+### Kịch bản DR 
 - Khi app đang chạy trên AWS
 - AWS gặp sự cố (giả lập bằng cách tắt cụm EKS hoặc đưa replica của app vê 0)
 - Lên CloudFlare chuyển traffic về local (trong khuôn khổ bài lab sẽ làm bằng tay sử dụng `CloudFlare Tunnel`, còn khi triển khai thực tế ta sử dụng `Cloudflare Load Balancing`)
 
-## Dự án cần triển khai
+### Dự án cần triển khai
 - Chúng ta triển khai 1 app với FE dùng React, BE dùng Laravel, DB sử dụng MySQL
 - Code FE xem [tại đây](https://github.com/ThongVu1996/lab-final-fe) và BE xem [tại đây](https://github.com/ThongVu1996/lab-final-be)
 - Code setup CI-CD cho phần cloud xem [tại đây](https://github.com/ThongVu1996/lab-final) , full code cho cả local và cloud xem [tại đây](https://github.com/ThongVu1996/lab-final-full) 
 
 ---
 
-# Phân tích bài toán 
-## Flow hoạt động về dữ liệu
+## Phân tích bài toán 
+### Flow hoạt động về dữ liệu
   ```bash
                         User truy cập trang web 
 
@@ -70,7 +99,7 @@
 - Để có thể hiểu hơn về Ingress và Service thì có thể xem [tại đây](./basic.md#k8s) 
 - Với bài toán này ta sẽ xây dựng 1 service cho FE, 1 cho BE, 1 cho DB (với local vì với AWS ta sử dụng RDS của AWS).
 
-## Flow CI-CD
+### Flow CI-CD
 - Trong bài lab này chúng ta sẽ tuân thủ theo nguyên tắc pull base với gitOps là chân lý duy nhất
 - Flow CI-CD sẽ như sau
   ```bash
@@ -116,8 +145,8 @@
 
 --- 
 
-# Triển khai ở Local
-## Cài đặt Cloudflare Agent 
+## Triển khai ở Local
+### Cài đặt Cloudflare Agent 
  - Đầu tiên chúng ta phải cài Helm Chart lên k8s trước [tại đây](https://github.com/ThongVu1996/cd-ci-lab/blob/master/argocd/argocd-with-helm.md#t%E1%BA%A1o-helm-chart-tr%C3%AAn-k8s) 
     ```bash
           helm repo add cloudflare https://cloudflare.github.io/helm-charts
@@ -136,7 +165,7 @@
  
    ![check-cloud-flare-agent-in-local](./check-cloud-flare-agent-in-local.png)
 
-## Cài đặt Nginx Ingress 
+### Cài đặt Nginx Ingress 
  ```bash
     helm install ingress-nginx ingress-nginx/ingress-nginx \
       --namespace ingress-nginx --create-namespace \
@@ -171,7 +200,7 @@
   - <service-name> (Tên Service): Đây là giá trị nằm trong cột NAME.
   - <namespace> (Không gian tên): Đây là giá trị bạn đã điền sau tham số -n khi chạy lệnh.
 
-## Thiết lập biến môi trường
+### Thiết lập biến môi trường
 - Với laravel là backend khi triển khai chúng ta cần sử dụng biến môi trường qua file `.env`.
 - Để làm được điều đó chúng ta sẽ phải tạo secret key cho k8s, và các biến đó sẽ được đọc trong các file minifest.
   ```bash
@@ -215,7 +244,7 @@
     ```
   - Kiểm tra bằng lệnh tương tự ở trên chỉ thay namespace thành yorisoi-prod
 
-## Thiết lập jenkins
+### Thiết lập jenkins
 - Ta đã biết cách cài đặt jenkins
 - Với nội dụng Jenkins ta xem [tại đây](https://github.com/ThongVu1996/lab-final-full/blob/main/Jenkinsfile)
 - Sau khi code được đẩy lên gitlab -> Jenkins sẽ tiến hành build
@@ -226,7 +255,7 @@
 
   ![jenkins-build](./jenkins-build.png)
 
-## Kiểm tra Harbor
+### Kiểm tra Harbor
 - Ta sẽ thấy images và helm chart được đẩy lên tương ứng với version trong Jenkins
 
    ![harbor-project](./harbor-project.png)
@@ -239,21 +268,21 @@
  - Với 2 iamges được tạo ra như vậy thì khi k8s chạy nó sẽ tự biết phải lấy bản nào để có thể dùng được (dựa trên chip của máy host đang cài k8s).
  - Tuy nhiên buildx sẽ làm tốc độ giảm đi, nên với môi trường product chúng ta nên sử dụng máy host có kernal là chip amd vì thường thì các cloud đa phần chỉ support phiên bản chip amd.
 
-## Kiểm tra ECR
+### Kiểm tra ECR
 - Kiểm tra các repo
 
    ![ECR-list-repo](./ECR-list-repo.png)
 
    ![ECR-images](./ECR-images.png)
 
-## Kiểm tra minifest github
+### Kiểm tra minifest github
  - Kiểm tra repo ta sẽ thấy code được đẩy lên
 
    ![manifest-cloud](./manifest-cloud.png)
 
    ![mainifest-values-config](./mainifest-values-config.png)
 
-## Tiến hành sử dụng argoCD để deploy ứng dụng lên cụm K8s
+### Tiến hành sử dụng argoCD để deploy ứng dụng lên cụm K8s
  - Nhớ tạo nơi chứa data cho Mysql ở cụm node quy định trong file config ở đây là k8s-master-2
   ```bash
     # Đây là do cấu hình vậy
@@ -316,7 +345,7 @@
      ![log-app-local](./log-app-local.png)
 ---
 
-# Triển khai ở Cloud
+## Triển khai ở Cloud
 - Ở phía local chúng ta triển khai DB là mysql lên container, còn ở trên AWS chúng ta triển khai nó lên AWS RDS
 - Chi tiết về cách cài AWS RDS xem [tại đây](https://github.com/ThongVu1996/cd-ci-lab/blob/master/final/insall-AWS-RDS.md)
   ![RDS](./RDS.png)
@@ -333,14 +362,14 @@
 
  --- 
 
-# Kịch bản DR
-## Phân tích
+## Kịch bản DR
+### Phân tích
 - Như đầu bài lab ta có để cập đến thì AWS chết -> đưa nó về local
 - Nhưng ở đây ta tiến hành deploy local trước nên chúng ta làm ngược lại là đưa từ local lên AWS (kết quả cũng sẽ tương đương nhau).
 - Mục tiêu là người dùng chỉ cần truy cập vào trang web vẫn thấy dùng được, chứ họ không hề biết là hệ thống đang được chạy ở AWS hay local.
 - Để đạt được điều đó thì 1 lưu ý quan trọng là tại thời điểm trang web chỉ trỏ lưu lượng về một nơi duy nhất.
 
-## Thực hành
+### Thực hành
 - Bước 1: Ta vào bên trong bản ghi của cloudflare tunnel và chuyển subdomain sang giá trị khác như hình
 
   ![change-subdomain-local](./change-subdomain-local.png)
@@ -373,7 +402,7 @@
 
 --- 
 
-# Phân tích chuyên sâu:
+## Phân tích chuyên sâu:
 - Vì khi triển khai ở local ta deploy DB vào 1 container, nên ta cần tạo ra 1 thư mục nhằm mount data ra máy local tránh trường hợp mất dữ liệu khi pod chết.
 - Ở đây chúng ta dùng backend lả Laravel, vì vậy khi deploy code lên nó sẽ cần luôn phải chạy lệnh `php artisan migrate --seed --force` để cập nhật các trường mới trong DB nếu code có update.
 - Chính vì vậy chúng ta cần tạo ra 1 job, và job đó nó sẽ chay sau khi mà ta đã tạo xong service dành cho db và be (laravel). Ta có thể xem kỹ nó [tại đây](https://github.com/ThongVu1996/lab-final-full/blob/main/charts/yorisoi-stack/templates/migration-job.yaml)
