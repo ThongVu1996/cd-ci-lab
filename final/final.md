@@ -21,16 +21,19 @@
 - Cụm AWS EKS (xem [tại đây](https://github.com/ThongVu1996/cd-ci-lab/blob/master/aws/install.md) )
 - AWS ECR (xem [tại đây]())
 - Gihub Repo (xem [tại đây](https://github.com/ThongVu1996/lab-final))
+
 ## Quy trình CI/CD 
 
  ![pipe-line-CI-CD](./pipeline.png)
 
 - Yêu cầu khi trong quá trình phát triển chỉ đưa lên local, khi thực sự release thì sẽ qua 1 bước kiểm duyệt và cần quyền approve của người có thẩm quyền. 
 - Sau khi được chấp thuận thì dự án deploy lên AWS
+
 ## Kịch bản DR 
 - Khi app đang chạy trên AWS
 - AWS gặp sự cố (giả lập bằng cách tắt cụm EKS hoặc đưa replica của app vê 0)
 - Lên CloudFlare chuyển traffic về local (trong khuôn khổ bài lab sẽ làm bằng tay sử dụng `CloudFlare Tunnel`, còn khi triển khai thực tế ta sử dụng `Cloudflare Load Balancing`)
+
 ## Dự án cần triển khai
 - Chúng ta triển khai 1 app với FE dùng React, BE dùng Laravel, DB sử dụng MySQL
 - Code FE xem [tại đây](https://github.com/ThongVu1996/lab-final-fe) và BE xem [tại đây](https://github.com/ThongVu1996/lab-final-be)
@@ -167,6 +170,51 @@
 - `<service-name>.<namespace>.svc.cluster.local` (đây chính là địa chỉ điển vào URL)
   - <service-name> (Tên Service): Đây là giá trị nằm trong cột NAME.
   - <namespace> (Không gian tên): Đây là giá trị bạn đã điền sau tham số -n khi chạy lệnh.
+
+## Thiết lập biến môi trường
+- Với laravel là backend khi triển khai chúng ta cần sử dụng biến môi trường qua file `.env`.
+- Để làm được điều đó chúng ta sẽ phải tạo secret key cho k8s, và các biến đó sẽ được đọc trong các file minifest.
+  ```bash
+        kubectl create namespace yorisoi-local
+
+        kubectl create secret generic yorisoi-secret \
+          --namespace yorisoi-local \
+          --from-literal=APP_ENV=‘production’ \
+          --from-literal=APP_DEBUG='false’ \
+          --from-literal=APP_URL=’domain’ \
+          --from-literal=APP_KEY='base64:Thay_The_Bang_Key_Cua_Ban_Vao_Day' \
+          --from-literal=JWT_SECRET=‘jwt_tao_bang_lenh_ php artisan jwt:secret\
+          --from-literal=DB_CONNECTION='mysql' \
+          --from-literal=DB_HOST='mysql-svc' \
+          --from-literal=DB_PORT='3306' \
+          --from-literal=DB_DATABASE='yorisoi_db' \
+          --from-literal=DB_USERNAME='yorisoi_user' \
+          --from-literal=DB_PASSWORD='MatKhauDbCuaBan' \
+          --from-literal=MYSQL_ROOT_PASSWORD='MatKhauRootCuaBan' \
+          --from-literal=MYSQL_PASSWORD='MatKhauDbCuaBan' \
+          --from-literal=MYSQL_DATABASE='yorisoi_db' \
+          --from-literal=MYSQL_USER='yorisoi_user'
+  ```
+  - Kiểm tra bằng lệnh
+    ```bash
+       kubectl describe secret yorisoi-secret -n yorisoi-local
+    ```
+  - Với AWS do ta triển khai DB bằng RDS nên các thông số sẽ ít hơn
+    ```bash
+      kubectl create secret generic yorisoi-secret \
+      --namespace yorisoi-prod \
+      --from-literal=APP_ENV='production' \
+      --from-literal=APP_KEY='base64:eZ5f9kN7uDSUsnyxoQwISBdgsfHb3XJj4UW4Be7YBlE=' \
+      --from-literal=JWT_SECRET='xAR12UlxQenjBfOPMTDIjRewTUJlKRu8sjU7gyJ6A8fYkS7v6PpXPI1xEMlKZ9M0' \
+      --from-literal=DB_CONNECTION='mysql' \
+      --from-literal=DB_HOST='lab-final-db.cn46i6qw2flt.ap-southeast-1.rds.amazonaws.com' \
+      --from-literal=DB_DATABASE='yorisoi_db' \
+      --from-literal=DB_PORT='3306' \
+      --from-literal=DB_USERNAME='yorisoi_user' \
+      --from-literal=DB_PASSWORD='thaolinh123'
+    ```
+  - Kiểm tra bằng lệnh tương tự ở trên chỉ thay namespace thành yorisoi-prod
+
 ## Thiết lập jenkins
 - Ta đã biết cách cài đặt jenkins
 - Với nội dụng Jenkins ta xem [tại đây](https://github.com/ThongVu1996/lab-final-full/blob/main/Jenkinsfile)
@@ -177,6 +225,7 @@
 - Kết quả của quá trình build.
 
   ![jenkins-build](./jenkins-build.png)
+
 ## Kiểm tra Harbor
 - Ta sẽ thấy images và helm chart được đẩy lên tương ứng với version trong Jenkins
 
@@ -189,6 +238,7 @@
  - Trong ảnh ta có thể thấy images có hai phiên bản là amd và arm. Vì trong quá trình build đã sử dụng buildx để build multiple plataform.
  - Với 2 iamges được tạo ra như vậy thì khi k8s chạy nó sẽ tự biết phải lấy bản nào để có thể dùng được (dựa trên chip của máy host đang cài k8s).
  - Tuy nhiên buildx sẽ làm tốc độ giảm đi, nên với môi trường product chúng ta nên sử dụng máy host có kernal là chip amd vì thường thì các cloud đa phần chỉ support phiên bản chip amd.
+
 ## Kiểm tra ECR
 - Kiểm tra các repo
 
@@ -289,6 +339,7 @@
 - Nhưng ở đây ta tiến hành deploy local trước nên chúng ta làm ngược lại là đưa từ local lên AWS (kết quả cũng sẽ tương đương nhau).
 - Mục tiêu là người dùng chỉ cần truy cập vào trang web vẫn thấy dùng được, chứ họ không hề biết là hệ thống đang được chạy ở AWS hay local.
 - Để đạt được điều đó thì 1 lưu ý quan trọng là tại thời điểm trang web chỉ trỏ lưu lượng về một nơi duy nhất.
+
 ## Thực hành
 - Bước 1: Ta vào bên trong bản ghi của cloudflare tunnel và chuyển subdomain sang giá trị khác như hình
 
@@ -319,7 +370,6 @@
    - Mỗi lần ta đăng nhập vào hệ thống để thì log sẽ in ra thêm 
    
    ![aws-logs](./aws-logs.png)
-
 
 --- 
 
