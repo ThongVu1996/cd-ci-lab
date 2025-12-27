@@ -2,24 +2,24 @@
 
 ---
 
-## Muc Luc
+## Mục lục
 
-  - [**1. TỔNG QUAN DỰ ÁN (PROJECT OVERVIEW)**](#1-tổng-quan-dự-án-project-overview)
+- [**1. TỔNG QUAN DỰ ÁN (PROJECT OVERVIEW)**](#1-tổng-quan-dự-án-project-overview)
     - [**Stack Công nghệ**](#stack-công-nghệ)
-  - [**2. KIẾN TRÚC HỆ THỐNG VÀ LUỒNG DỮ LIỆU (ARCHITECTURE \& DATA FLOW)**](#2-kiến-trúc-hệ-thống-và-luồng-dữ-liệu-architecture--data-flow)
+- [**2. KIẾN TRÚC HỆ THỐNG VÀ LUỒNG DỮ LIỆU (ARCHITECTURE \& DATA FLOW)**](#2-kiến-trúc-hệ-thống-và-luồng-dữ-liệu-architecture--data-flow)
     - [**2.1. Luồng truy cập của người dùng (User Request Flow)**](#21-luồng-truy-cập-của-người-dùng-user-request-flow)
-  - [**3. YÊU CẦU HẠ TẦNG KỸ THUẬT (INFRASTRUCTURE REQUIREMENTS)**](#3-yêu-cầu-hạ-tầng-kỹ-thuật-infrastructure-requirements)
+- [**3. YÊU CẦU HẠ TẦNG KỸ THUẬT (INFRASTRUCTURE REQUIREMENTS)**](#3-yêu-cầu-hạ-tầng-kỹ-thuật-infrastructure-requirements)
     - [**3.1. Primary Site - Cloud (AWS)**](#31-primary-site---cloud-aws)
     - [**3.2. Disaster Recovery (DR) Site - On-Premise**](#32-disaster-recovery-dr-site---on-premise)
-  - [**4. QUY TRÌNH CI/CD \& GITOPS (CI/CD PIPELINE)**](#4-quy-trình-cicd--gitops-cicd-pipeline)
+- [**4. QUY TRÌNH CI/CD \& GITOPS (CI/CD PIPELINE)**](#4-quy-trình-cicd--gitops-cicd-pipeline)
     - [**4.1. Sơ đồ quy trình (Pipeline Diagram)**](#41-sơ-đồ-quy-trình-pipeline-diagram)
     - [**4.2. Chiến lược triển khai (Deployment Strategy)**](#42-chiến-lược-triển-khai-deployment-strategy)
     - [**4.3. Chi tiết các bước trong Pipeline**](#43-chi-tiết-các-bước-trong-pipeline)
-  - [**5. KỊCH BẢN ỨNG PHÓ SỰ CỐ (DISASTER RECOVERY PLAN)**](#5-kịch-bản-ứng-phó-sự-cố-disaster-recovery-plan)
+- [**5. KỊCH BẢN ỨNG PHÓ SỰ CỐ (DISASTER RECOVERY PLAN)**](#5-kịch-bản-ứng-phó-sự-cố-disaster-recovery-plan)
     - [**5.1. Điều kiện kích hoạt (Trigger Condition)**](#51-điều-kiện-kích-hoạt-trigger-condition)
     - [**5.2. Quy trình Failover (Chuyển đổi dự phòng)**](#52-quy-trình-failover-chuyển-đổi-dự-phòng)
-  - [**6. THÔNG TIN MÃ NGUỒN \& TÀI NGUYÊN (RESOURCES)**](#6-thông-tin-mã-nguồn--tài-nguyên-resources)
-- [**7. Triển khai hệ thống trên môi trường Local**](#7-triển-khai-hệ-thống-trên-môi-trường-local)
+- [**6. THÔNG TIN MÃ NGUỒN \& TÀI NGUYÊN (RESOURCES)**](#6-thông-tin-mã-nguồn--tài-nguyên-resources)
+- [**7. TRIỂN KHAI HỆ THỐNG TRÊN MÔI TRƯỜNG LOCAL**](#7-triển-khai-hệ-thống-trên-môi-trường-local)
   - [**7.1. Cài đặt Cloudflare Agent**](#71-cài-đặt-cloudflare-agent)
   - [**7.2. Cài đặt Nginx Ingress**](#72-cài-đặt-nginx-ingress)
   - [**7.3. Thiết lập biến môi trường (Secret)**](#73-thiết-lập-biến-môi-trường-secret)
@@ -28,19 +28,19 @@
   - [**7.6. Kiểm tra ECR**](#76-kiểm-tra-ecr)
   - [**7.7. Kiểm tra Manifest Github**](#77-kiểm-tra-manifest-github)
   - [**7.8. Triển khai ứng dụng bằng ArgoCD**](#78-triển-khai-ứng-dụng-bằng-argocd)
-- [**8. Triển khai hệ thống trên Cloud (AWS)**](#8-triển-khai-hệ-thống-trên-cloud-aws)
+- [**8. TRIỂN KHAI HỆ THỐNG TRÊN CLOUD (AWS)**](#8-triển-khai-hệ-thống-trên-cloud-aws)
   - [**8.1. Triển khai Database (AWS RDS)**](#81-triển-khai-database-aws-rds)
   - [**8.2. Cấu hình Ứng dụng và Ingress**](#82-cấu-hình-ứng-dụng-và-ingress)
   - [**8.3. Cấu hình DNS trên Cloudflare**](#83-cấu-hình-dns-trên-cloudflare)
-- [**9. Kịch bản Disaster Recovery (DR)**](#9-kịch-bản-disaster-recovery-dr)
+- [**9. KỊCH BẢN DISASTER RECOVERY (DR)**](#9-kịch-bản-disaster-recovery-dr)
   - [**9.1. Phân tích kịch bản**](#91-phân-tích-kịch-bản)
   - [**9.2. Mục tiêu cốt lõi**](#92-mục-tiêu-cốt-lõi)
   - [**9.3. Nguyên lý hoạt động**](#93-nguyên-lý-hoạt-động)
-- [**10. Thực hành Kịch bản DR**](#10-thực-hành-kịch-bản-dr)
+- [**10. THỰC HÀNH KỊCH BẢN DR**](#10-thực-hành-kịch-bản-dr)
   - [**10.1. Giả lập sự cố tại Local**](#101-giả-lập-sự-cố-tại-local)
   - [**10.2. Chuyển đổi sang AWS (Failover)**](#102-chuyển-đổi-sang-aws-failover)
   - [**10.3. Xác thực hệ thống**](#103-xác-thực-hệ-thống)
-- [**Phân tích chuyên sâu về Kiến trúc và Triển khai**](#phân-tích-chuyên-sâu-về-kiến-trúc-và-triển-khai)
+- [**PHÂN TÍCH CHUYÊN SÂU VỀ KIẾN TRÚC VÀ TRIỂN KHAI**](#phân-tích-chuyên-sâu-về-kiến-trúc-và-triển-khai)
   - [**1. Chiến lược lưu trữ dữ liệu (Data Persistence)**](#1-chiến-lược-lưu-trữ-dữ-liệu-data-persistence)
   - [**2. Tự động hóa Database Migration (CI/CD Hook)**](#2-tự-động-hóa-database-migration-cicd-hook)
   - [**3. Kiến trúc Web Server \& Container Design Patterns**](#3-kiến-trúc-web-server--container-design-patterns)
@@ -278,7 +278,7 @@ Dưới đây là liên kết đến các kho lưu trữ mã nguồn và cấu h
 
 --- 
 
-# **7\. Triển khai hệ thống trên môi trường Local**
+# **7\. TRIỂN KHAI HỆ THỐNG TRÊN MÔI TRƯỜNG LOCAL**
 
 Tài liệu này hướng dẫn chi tiết các bước triển khai ứng dụng lên hạ tầng Kubernetes tại Local, bao gồm cài đặt Cloudflare Tunnel, Nginx Ingress và thiết lập CI/CD.
 
@@ -474,7 +474,52 @@ File values cấu hình:
 
 ## **7.8. Triển khai ứng dụng bằng ArgoCD**
 
-**Bước 1: Chuẩn bị Storage**
+Như đã biết ở các bài lab trước, thì việc argoCD ở local sẽ không thể pull được images và helm chart với config defautl. Chúng ta có một cách đó là public harbor lên internet bằng Zero Trust (xem thêm [tại đây](https://github.com/ThongVu1996/cd-ci-lab/blob/master/argocd/argocd-base.md#3-tri%E1%BB%83n-khai))
+Tuy nhiên với bài lab này việc public harbor lên trển internet là không hợp lý, vì vậy chúng ta phải sửa coredns của cụm k8s
+
+**Bước 1:** Mở ConfigMap để chỉnh sửa
+
+```bash
+kubectl edit configmap coredns -n kube-system
+```
+
+**Bước 2:** Sửa cấu hình có nội dung tương tự file, để forward sang DNS nội bộ của local với tên miền của harbor
+
+```bash
+apiVersion: v1
+data:
+  Corefile: |
+    local.thongdev.site:53 {
+        errors
+        cache 30
+        forward . 192.168.1.30
+    }
+    .:53 {
+        errors
+        health {
+           lameduck 5s
+        }
+        ready
+        kubernetes cluster.local in-addr.arpa ip6.arpa {
+           pods insecure
+           fallthrough in-addr.arpa ip6.arpa
+           ttl 30
+        }
+        prometheus :9153
+        forward . /etc/resolv.conf {
+           max_concurrent 1000
+        }
+        cache 30 {
+           disable success cluster.local
+           disable denial cluster.local
+        }
+        loop
+        reload
+        loadbalance
+    }
+```
+
+**Bước 3: Chuẩn bị Storage**
 
 Tạo thư mục chứa data cho MySQL trên Node (ví dụ: k8s-master-2):
 
@@ -483,7 +528,7 @@ Tạo thư mục chứa data cho MySQL trên Node (ví dụ: k8s-master-2):
 mkdir /data/mysql-pv
 ```
 
-**Bước 2: Tạo Application**
+**Bước 4: Tạo Application**
 
 Bạn có thể tạo App trên giao diện (tham khảo [tại đây](https://github.com/ThongVu1996/cd-ci-lab/blob/master/argocd/argocd-with-helm.md), search `Bước 4: Triển khai với helm lưu trữ trên Harbor bằng ArgoCD` cho nhanh thấy) hoặc dùng file YAML sau:
 
@@ -557,7 +602,7 @@ Log sẽ hiển thị khi bạn F5 trang web:
 
 ---
 
-# **8\. Triển khai hệ thống trên Cloud (AWS)**
+# **8\. TRIỂN KHAI HỆ THỐNG TRÊN CLOUD (AWS)**
 
 Khác với môi trường Local nơi mọi thành phần đều chạy trong Container, trên môi trường Cloud (AWS), chúng ta sẽ tận dụng các dịch vụ được quản lý (Managed Services) để tăng tính ổn định và khả năng mở rộng.
 
@@ -601,7 +646,7 @@ Sau khi DNS được cập nhật, truy cập vào tên miền dr.\<domain-cua-b
 
 ---
 
-# **9\. Kịch bản Disaster Recovery (DR)**
+# **9\. KỊCH BẢN DISASTER RECOVERY (DR)**
 
 ## **9.1. Phân tích kịch bản**
 
@@ -631,7 +676,7 @@ Tại một thời điểm, lưu lượng truy cập từ người dùng chỉ n
 
 ---
 
-# **10\. Thực hành Kịch bản DR**
+# **10\. THỰC HÀNH KỊCH BẢN DR**
 
 Phần này hướng dẫn chi tiết các bước thực hiện thao tác chuyển đổi (Failover) từ Local sang AWS để kiểm chứng kịch bản DR.
 
@@ -697,7 +742,7 @@ Khi bạn thao tác trên trang web (F5 hoặc đăng nhập), log mới sẽ xu
 
 ---
 
-# **Phân tích chuyên sâu về Kiến trúc và Triển khai**
+# **PHÂN TÍCH CHUYÊN SÂU VỀ KIẾN TRÚC VÀ TRIỂN KHAI**
 
 Phần này đi sâu vào các quyết định kỹ thuật (Technical Decisions) được áp dụng trong dự án, giải thích lý do tại sao hệ thống được thiết kế và vận hành theo mô hình hiện tại.
 
