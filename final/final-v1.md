@@ -140,6 +140,7 @@ Chúng ta tuân thủ nguyên tắc **GitOps**: Git là "nguồn chân lý duy n
 
 ### **4.1. Sơ đồ quy trình (Pipeline Diagram)**
 
+```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '\#5e97f6', 'edgeLabelBackground':'\#ffffff', 'fontFamily': 'arial', 'fontSize': '13px'}}}%%  
 flowchart LR  
     %% Style Definitions  
@@ -196,6 +197,7 @@ flowchart LR
       
     %% Link Styles  
     linkStyle 5,6 stroke:\#ed8936,stroke-width:2px,stroke-dasharray: 5 5;
+```
 
 ### **4.2. Chiến lược triển khai (Deployment Strategy)**
 
