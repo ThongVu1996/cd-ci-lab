@@ -57,7 +57,7 @@ Hệ thống sử dụng CloudFlare làm điểm nhập (Entry point) để đi�
 
 **Sơ đồ luồng dữ liệu:**
 
-```
+```mermaid
 flowchart LR
     %% Style Definitions
     classDef aws fill:#fff0e6,stroke:#f66,stroke-width:1px,stroke-dasharray: 5 5;
