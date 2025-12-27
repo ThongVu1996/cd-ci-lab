@@ -202,4 +202,4 @@
     kubectl get ingress -n argocd
   ```
   
-   ![nghiem-thu](./aws/58.png)
+   ![nghiem-thu](./58.png)
