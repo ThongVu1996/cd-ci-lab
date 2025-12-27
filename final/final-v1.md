@@ -58,7 +58,6 @@ Hệ thống sử dụng CloudFlare làm điểm nhập (Entry point) để đi�
 **Sơ đồ luồng dữ liệu:**
 
 ```
-%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#5e97f6', 'edgeLabelBackground':'#ffffff', 'fontFamily': 'arial', 'fontSize': '13px'}}}%%
 flowchart LR
     %% Style Definitions
     classDef aws fill:#fff0e6,stroke:#f66,stroke-width:1px,stroke-dasharray: 5 5;
