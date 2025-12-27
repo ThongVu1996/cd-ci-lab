@@ -117,7 +117,8 @@
   ```
     kubectl get deployment -n kube-system aws-load-balancer-controller
   ```
-  <image src="./56.png">
+
+    ![check-alive](/Users/thongvu/DevOps/documents/cd-ci-lab/aws/check-alive.png)
 
 ## **IV. Kích hoạt INGRESS**
 - Tạo argocd-ingress.yaml
@@ -190,13 +191,15 @@
     ```
     kubectl apply -f argocd-ingress.yaml
     ```
-- Reset COntroller
+- Reset Controller
     ```
       kubectl delete pod -n kube-system -l app.kubernetes.io/name=aws-load-balancer-controller
     ```
-    <image src="./57.png">
+    
+    ![reset-controller](/Users/thongvu/DevOps/documents/cd-ci-lab/aws/reset-controller.png)
 ## **V. Nghiệm thu**
   ```
     kubectl get ingress -n argocd
   ```
-  <image src="./58.png">
+  
+   ![nghiem-thu](/Users/thongvu/DevOps/documents/cd-ci-lab/aws/58.png)
