@@ -21,7 +21,7 @@
     - Vào cloudFlare -> DNS -> Records -> Add Record -> Chọn type CNAME
     <image src="./39.png">
     - Name và Targer điền điển CNAME name và CNAME value của chứng chỉ AWS
-    <image src="./40.png">
+    <image src="./40.png">  <image src="./56.png">
     - Tắt Proxy Status
     - Save
     - Được thành quả như hình
@@ -118,7 +118,7 @@
     kubectl get deployment -n kube-system aws-load-balancer-controller
   ```
 
-    ![check-alive](/Users/thongvu/DevOps/documents/cd-ci-lab/aws/check-alive.png)
+    ![check-alive](./check-alive.png)
 
 ## **IV. Kích hoạt INGRESS**
 - Tạo argocd-ingress.yaml
@@ -196,10 +196,10 @@
       kubectl delete pod -n kube-system -l app.kubernetes.io/name=aws-load-balancer-controller
     ```
     
-    ![reset-controller](/Users/thongvu/DevOps/documents/cd-ci-lab/aws/reset-controller.png)
+    ![reset-controller](./reset-controller.png)
 ## **V. Nghiệm thu**
   ```
     kubectl get ingress -n argocd
   ```
   
-   ![nghiem-thu](/Users/thongvu/DevOps/documents/cd-ci-lab/aws/58.png)
+   ![nghiem-thu](./aws/58.png)
