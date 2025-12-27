@@ -3,6 +3,8 @@
 ---
 
 ## Table of Content
+- [BÀI LAB CUỐI KHÓA ](#bài-lab-cuối-khóa-)
+  - [Table of Content](#table-of-content)
   - [Tổng quan dự án](#tổng-quan-dự-án)
   - [Yêu cầu kỹ thuật](#yêu-cầu-kỹ-thuật)
     - [Hạ tầng](#hạ-tầng)
