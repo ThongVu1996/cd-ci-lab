@@ -57,6 +57,7 @@ Hệ thống sử dụng CloudFlare làm điểm nhập (Entry point) để đi�
 
 **Sơ đồ luồng dữ liệu:**
 
+```
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#5e97f6', 'edgeLabelBackground':'#ffffff', 'fontFamily': 'arial', 'fontSize': '13px'}}}%%
 flowchart LR
     %% Style Definitions
@@ -91,6 +92,7 @@ flowchart LR
     %% Link Styles for emphasis
     linkStyle 1 stroke:#48bb78,stroke-width:2px,color:#2f855a
     linkStyle 5 stroke:#e53e3e,stroke-width:2px,stroke-dasharray: 5 5,color:#c53030
+```
 
 
 **Quy trình xử lý chi tiết:**
