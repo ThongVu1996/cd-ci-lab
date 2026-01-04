@@ -304,7 +304,7 @@ Trước tiên, hãy đảm bảo Helm Chart đã được cài đặt trên k8s
 
 YOUR\_TUNNEL\_TOKEN được lấy từ mục **Install and run a connector** trên giao diện Cloudflare như hình dưới:
 
-![token-cloud-flare-access-token](image-1.png)
+![token-cloud-flare-access-token](https://github.com/ThongVu1996/cd-ci-lab/raw/master/final/image-1.png)
 
 **Bước 3: Kiểm tra cài đặt**
 
@@ -424,7 +424,7 @@ eksctl version
 
 Kết quả như ảnh là được:
 
-![aws-confirm-install](image.png)
+![aws-confirm-install](https://github.com/ThongVu1996/cd-ci-lab/raw/master/final/image.png)
 
 Nội dung Jenkinsfile xem [tại đây](https://github.com/ThongVu1996/lab-final-full/blob/main/Jenkinsfile).
 
@@ -460,7 +460,7 @@ Kiểm tra danh sách Repository và Images trên AWS ECR:
 
 ![ECR-list-repo](https://github.com/ThongVu1996/cd-ci-lab/raw/master/final/ECR-list-repo.png)
 
-![ECR-repo-detail](image-2.png)
+![ECR-repo-detail](https://github.com/ThongVu1996/cd-ci-lab/raw/master/final/image-2.png)
 
 ## **7.7. Kiểm tra Manifest Github**
 
