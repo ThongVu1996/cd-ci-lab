@@ -123,64 +123,7 @@ Chúng ta tuân thủ nguyên tắc **GitOps**: Git là "nguồn chân lý duy n
 
 ### **4.1. Sơ đồ quy trình (Pipeline Diagram)**
 
-```mermaid
-flowchart LR
-    %% Style Definitions
-    classDef person fill:#2d3748,stroke:#1a202c,stroke-width:2px,color:white,rx:10,ry:10;
-    classDef system fill:#edf2f7,stroke:#a0aec0,stroke-width:1px,color:#2d3748,rx:5,ry:5;
-    classDef storage fill:#ebf8ff,stroke:#4299e1,stroke-width:2px,color:#2b6cb0,shape:cylinder;
-    classDef k8s fill:#3182ce,stroke:#2c5282,stroke-width:2px,color:white,shape:hexagon;
-    classDef jenkins fill:#fff5f5,stroke:#fc8181,stroke-width:2px,color:#c53030,rx:5,ry:5;
-
-    %% Nodes
-    Dev(👨‍💻 Developer):::person
-    CTO(🤵 CTO/Manager):::person
-
-    subgraph OnPrem [🏠 On-Premise Infrastructure]
-        GL[GitLab Local]:::system
-        
-        subgraph Jenkins_Server [Jenkins Pipeline]
-            direction TB
-            JenBuild[Stage 1: Build & Local]:::jenkins
-            JenDeploy[Stage 2: Cloud Deploy]:::jenkins
-        end
-        
-        Har[(Harbor Registry)]:::storage
-        ArgoLoc[ArgoCD Local]:::system
-        K8sLoc{{K8s Local}}:::k8s
-    end
-
-    subgraph Cloud [☁️ AWS Cloud Infrastructure]
-        GitOps[GitOps Repo]:::system
-        ECR[(AWS ECR)]:::storage
-        ArgoCloud[ArgoCD Cloud]:::system
-        EKS{{AWS EKS}}:::k8s
-    end
-
-    %% Connections - Linear Flow
-    Dev ==>|1. Push Code| GL
-    GL ==>|2. Webhook| JenBuild
-    
-    %% Local Path
-    JenBuild -->|3. Build & Push| Har
-    Har -->|4. Pull| ArgoLoc
-    ArgoLoc -->|5. Auto Deploy| K8sLoc
-
-    %% Approval Bridge - KEY CHANGE HERE
-    JenBuild -.->|6. Request Approval| CTO
-    CTO -.->|7. Approve| JenDeploy
-
-    %% Cloud Path (Only starts from JenDeploy)
-    JenDeploy -->|8. Push Image| ECR
-    JenDeploy -->|9. Update Manifest| GitOps
-    
-    GitOps -->|10. Sync| ArgoCloud
-    ArgoCloud -->|11. Rolling Update| EKS
-    
-    %% Link Styles
-    linkStyle 5,6 stroke:#ed8936,stroke-width:2px,stroke-dasharray: 5 5;
-
-```
+![Pull Base Git Óp](https://github.com/ThongVu1996/cd-ci-lab/raw/master/final/pipe_line_diagram.svg)
 
 ### **4.2. Chiến lược triển khai (Deployment Strategy)**
 
