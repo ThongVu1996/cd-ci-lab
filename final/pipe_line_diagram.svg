@@ -110,70 +110,74 @@
   
   <!-- ========== APPROVAL/CLOUD PATH (Row 2) ========== -->
   
-  <!-- 6. CTO -->
-  <g transform="translate(180, 330)" class="s6">
+
+  <g transform="translate(125, 0)">
+    <!-- 6. CTO -->
+    <g transform="translate(180, 330)" class="s6">
     <rect x="0" y="0" width="100" height="65" rx="10" fill="#2d3748" stroke="#ed8936" stroke-width="3"/>
     <text x="50" y="28" text-anchor="middle" style="font-size:18px">🤵</text>
     <text x="50" y="48" text-anchor="middle" class="node-text-light">CTO/Manager</text>
-  </g>
-  
-  <!-- 7. Decision -->
-  <g transform="translate(335, 320)" class="s7">
-    <polygon points="50,0 100,45 50,90 0,45" fill="#2d3748" stroke="#48bb78" stroke-width="2"/>
-    <text x="50" y="42" text-anchor="middle" class="node-text-light" style="font-size:9px">Approve?</text>
-  </g>
-  
-  <!-- 8. Deploy Stage -->
-  <g transform="translate(490, 330)" class="s8">
-    <rect x="0" y="0" width="100" height="60" rx="8" fill="#c6f6d5" stroke="#48bb78" stroke-width="2"/>
-    <text x="50" y="24" text-anchor="middle" style="font-size:14px">🚀</text>
-    <text x="50" y="40" text-anchor="middle" class="node-text">Deploy</text>
-    <text x="50" y="52" text-anchor="middle" class="node-text" style="font-size:7px">(Cloud Release)</text>
-  </g>
-  
-  <!-- Reject Result -->
-  <g transform="translate(335, 450)" class="reject">
-    <rect x="0" y="0" width="100" height="45" rx="6" fill="#2d3748" stroke="#f56565" stroke-width="2" stroke-dasharray="4 4"/>
-    <text x="50" y="20" text-anchor="middle" class="node-text-light" style="fill:#f56565; font-size:9px">❌ Rejected</text>
-    <text x="50" y="35" text-anchor="middle" class="node-text-light" style="font-size:8px">Local Only</text>
-  </g>
-  
-  <!-- ========== CLOUD INFRASTRUCTURE BOX ========== -->
-  <g transform="translate(650, 230)">
-    <rect x="0" y="0" width="510" height="260" rx="12" fill="rgba(72,187,120,0.08)" stroke="#48bb78" stroke-width="2" stroke-dasharray="6 4"/>
-    <text x="255" y="22" text-anchor="middle" class="section-title">☁️ AWS Cloud Infrastructure</text>
-    
-    <!-- 9. ECR (Top) -->
-    <g transform="translate(40, 60)" class="s9">
-      <ellipse cx="50" cy="32" rx="52" ry="35" fill="#fff5f5" stroke="#fc8181" stroke-width="2"/>
-      <text x="50" y="28" text-anchor="middle" style="font-size:14px">🐳</text>
-      <text x="50" y="46" text-anchor="middle" class="node-text">AWS ECR</text>
     </g>
-    
-    <!-- 9. GitOps (Bottom) -->
-    <g transform="translate(35, 155)" class="s9">
-      <rect x="0" y="0" width="100" height="50" rx="8" fill="#edf2f7" stroke="#a0aec0" stroke-width="2"/>
-      <text x="50" y="20" text-anchor="middle" style="font-size:12px">📁</text>
-      <text x="50" y="38" text-anchor="middle" class="node-text">GitOps Repo</text>
+  
+    <!-- 7. Decision -->
+    <g transform="translate(335, 320)" class="s7">
+      <polygon points="50,0 100,45 50,90 0,45" fill="#2d3748" stroke="#B1BB49" stroke-width="2"/>
+      <text x="50" y="50" text-anchor="middle" class="node-text-light" style="font-size:9px">Approve?</text>
     </g>
-    
-    <!-- 10. ArgoCD Cloud (Center) -->
-    <g transform="translate(220, 105)" class="s10">
-      <rect x="0" y="0" width="95" height="55" rx="8" fill="#c6f6d5" stroke="#48bb78" stroke-width="2"/>
-      <text x="47" y="22" text-anchor="middle" style="font-size:12px">🔄</text>
-      <text x="47" y="40" text-anchor="middle" class="node-text">ArgoCD</text>
+  
+    <!-- 8. Deploy Stage -->
+    <g transform="translate(490, 330)" class="s8">
+      <rect x="0" y="0" width="100" height="60" rx="8" fill="#c6f6d5" stroke="#48bb78" stroke-width="2"/>
+      <text x="50" y="24" text-anchor="middle" style="font-size:14px">🚀</text>
+      <text x="50" y="40" text-anchor="middle" class="node-text">Deploy</text>
+      <text x="50" y="52" text-anchor="middle" class="node-text" style="font-size:7px">(Cloud Release)</text>
     </g>
-    
-    <!-- 10. EKS (Right) -->
-    <g transform="translate(380, 95)" class="s10">
-      <polygon points="48,0 96,26 96,70 48,96 0,70 0,26" fill="#48bb78" stroke="#276749" stroke-width="2"/>
-      <text x="48" y="42" text-anchor="middle" class="node-text-light" style="font-size:11px">AWS</text>
-      <text x="48" y="58" text-anchor="middle" class="node-text-light" style="font-size:11px">EKS ✓</text>
+  
+    <!-- Reject Result -->
+    <g transform="translate(335, 450)" class="reject">
+      <rect x="0" y="0" width="100" height="45" rx="6" fill="#2d3748" stroke="#f56565" stroke-width="2" stroke-dasharray="4 4"/>
+      <text x="50" y="20" text-anchor="middle" class="node-text-light" style="fill:#f56565; font-size:9px">❌ Rejected</text>
+      <text x="50" y="35" text-anchor="middle" class="node-text-light" style="font-size:8px">Local Only</text>
+    </g>
+  
+    <!-- ========== CLOUD INFRASTRUCTURE BOX ========== -->
+    <g transform="translate(650, 230)">
+      <rect x="0" y="0" width="510" height="260" rx="12" fill="rgba(72,187,120,0.08)" stroke="#48bb78" stroke-width="2" stroke-dasharray="6 4"/>
+      <text x="255" y="22" text-anchor="middle" class="section-title">☁️ AWS Cloud Infrastructure</text>
+      
+      <!-- 9. ECR (Top) -->
+      <g transform="translate(40, 60)" class="s9">
+        <ellipse cx="50" cy="32" rx="52" ry="35" fill="#fff5f5" stroke="#fc8181" stroke-width="2"/>
+        <text x="50" y="28" text-anchor="middle" style="font-size:14px">🐳</text>
+        <text x="50" y="46" text-anchor="middle" class="node-text">AWS ECR</text>
+      </g>
+      
+      <!-- 9. GitOps (Bottom) -->
+      <g transform="translate(35, 155)" class="s9">
+        <rect x="0" y="0" width="100" height="50" rx="8" fill="#edf2f7" stroke="#a0aec0" stroke-width="2"/>
+        <text x="50" y="20" text-anchor="middle" style="font-size:12px">📁</text>
+        <text x="50" y="38" text-anchor="middle" class="node-text">GitOps Repo</text>
+      </g>
+      
+      <!-- 10. ArgoCD Cloud (Center) -->
+      <g transform="translate(220, 105)" class="s10">
+        <rect x="0" y="0" width="95" height="55" rx="8" fill="#c6f6d5" stroke="#48bb78" stroke-width="2"/>
+        <text x="47" y="22" text-anchor="middle" style="font-size:12px">🔄</text>
+        <text x="47" y="40" text-anchor="middle" class="node-text">ArgoCD</text>
+      </g>
+      
+      <!-- 10. EKS (Right) -->
+      <g transform="translate(380, 95)" class="s10">
+        <polygon points="48,0 96,26 96,70 48,96 0,70 0,26" fill="#48bb78" stroke="#276749" stroke-width="2"/>
+        <text x="48" y="42" text-anchor="middle" class="node-text-light" style="font-size:11px">AWS</text>
+        <text x="48" y="58" text-anchor="middle" class="node-text-light" style="font-size:11px">EKS ✓</text>
+      </g>
     </g>
   </g>
+
   
   <!-- ========== ORTHOGONAL CONNECTIONS (Right Angles Only) ========== -->
-  
+  <!-- Path 1 -> 6 -->
   <!-- Step 1: Dev → GitLab (Horizontal) -->
   <path d="M 130 130 L 180 130" stroke="#7dd3fc" stroke-width="3" class="l1" fill="none"/>
   <g transform="translate(155, 112)"><circle r="10" fill="#7dd3fc" class="indicator s1"/><text x="0" y="4" text-anchor="middle" class="step-num">1</text></g>
@@ -196,39 +200,44 @@
   <text x="672" y="100" class="step-text" style="fill:#68d391">Auto</text>
   
   <!-- Step 6: Jenkins → CTO (Orthogonal: down then left then down) -->
-  <path d="M 355 165 L 355 220 L 230 220 L 230 290" stroke="#ed8936" stroke-width="3" stroke-dasharray="6 4" class="l6" fill="none"/>
-  <g transform="translate(292, 205)"><circle r="10" fill="#ed8936" class="indicator s6"/><text x="0" y="4" text-anchor="middle" class="step-num">6</text></g>
+  <path d="M 355 165 L 355 330 M 405 365 L 460 365" stroke="#ed8936" stroke-width="3" stroke-dasharray="6 4" class="l6" fill="none"/>
+  <g transform="translate(292, 230)"><circle r="10" fill="#ed8936" class="indicator s6"/><text x="0" y="4" text-anchor="middle" class="step-num">6</text></g>
   <text x="292" y="195" class="step-text" style="fill:#ed8936">Request</text>
   
-  <!-- Step 7: CTO → Decision (Horizontal) → Deploy (Horizontal) -->
-  <path d="M 280 365 L 335 365 M 435 365 L 490 365" stroke="#48bb78" stroke-width="3" class="l7" fill="none"/>
-  <g transform="translate(307, 304)"><circle r="10" fill="#48bb78" class="indicator s7"/><text x="0" y="4" text-anchor="middle" class="step-num">7</text></g>
-  <text x="307" y="294" class="step-text" style="fill:#48bb78">✓ Approve</text>
-  
-  <!-- Reject path (Vertical down) -->
-  <path d="M 385 410 L 385 450" stroke="#f56565" stroke-width="2" stroke-dasharray="4 4" class="lreject" fill="none"/>
-  <text x="400" y="400" class="step-text" style="fill:#f56565">✗ Reject</text>
-  
-  <!-- Step 8: Deploy → ECR + GitOps (Orthogonal right angles) -->
-  <!-- To ECR: right, up, right -->
-  <path d="M 590 345 L 620 345 L 620 322 L 690 322" stroke="#fc8181" stroke-width="3" class="l8" fill="none"/>
-  <!-- To GitOps: right, down, right -->
-  <path d="M 590 375 L 620 375 L 620 415 L 685 415" stroke="#a0aec0" stroke-width="3" class="l8" fill="none"/>
-  <g transform="translate(637, 330)"><circle r="10" fill="#fc8181" class="indicator s8"/><text x="0" y="4" text-anchor="middle" class="step-num">8</text></g>
-  <g transform="translate(637, 395)"><circle r="10" fill="#a0aec0" class="indicator s8"/><text x="0" y="4" text-anchor="middle" class="step-num">8</text></g>
-  
-  <!-- Step 9: ECR + GitOps → ArgoCD (Orthogonal merge) -->
-  <!-- From ECR: right, down, right -->
-  <path d="M 792 322 L 830 322 L 830 360 L 870 360" stroke="#48bb78" stroke-width="3" class="l9" fill="none"/>
-  <!-- From GitOps: right, up, right -->
-  <path d="M 785 415 L 830 415 L 830 370 L 870 370" stroke="#48bb78" stroke-width="3" class="l9" fill="none"/>
-  <g transform="translate(845, 345)"><circle r="10" fill="#48bb78" class="indicator s9"/><text x="0" y="4" text-anchor="middle" class="step-num">9</text></g>
-  <text x="845" y="335" class="step-text">Sync</text>
-  
-  <!-- Step 10: ArgoCD → EKS (Horizontal) -->
-  <path d="M 965 365 L 1030 365" stroke="#276749" stroke-width="3" class="l10" fill="none"/>
-  <g transform="translate(997, 347)"><circle r="12" fill="#276749" class="indicator s10"/><text x="0" y="5" text-anchor="middle" class="step-num">10</text></g>
-  <text x="997" y="335" class="step-text" style="fill:#68d391">Deploy</text>
+  <!-- Path 7 -> 10 -->
+  <g transform="translate(125, 0)">
+
+    <!-- Step 7: CTO → Decision (Horizontal) → Deploy (Horizontal) -->
+    <path d="M 435 365 L 490 365" stroke="#48bb78" stroke-width="3" class="l7" fill="none"/>
+    <g transform="translate(430, 330)"><circle r="10" fill="#48bb78" class="indicator s7"/><text x="0" y="4" text-anchor="middle" class="step-num">7</text></g>
+    <text x="440" y="332" class="step-text" style="fill:#48bb78">✓ Approve</text>
+    
+    <!-- Reject path (Vertical down) -->
+    <path d="M 385 410 L 385 450" stroke="#f56565" stroke-width="2" stroke-dasharray="4 4" class="lreject" fill="none"/>
+    <text x="400" y="430" class="step-text" style="fill:#f56565">✗ Reject</text>
+    
+    <!-- Step 8: Deploy → ECR + GitOps (Orthogonal right angles) -->
+    <!-- To ECR: right, up, right -->
+    <path d="M 590 345 L 620 345 L 620 322 L 690 322" stroke="#fc8181" stroke-width="3" class="l8" fill="none"/>
+    <!-- To GitOps: right, down, right -->
+    <path d="M 590 375 L 620 375 L 620 415 L 685 415" stroke="#a0aec0" stroke-width="3" class="l8" fill="none"/>
+    <g transform="translate(637, 305)"><circle r="10" fill="#fc8181" class="indicator s8"/><text x="0" y="4" text-anchor="middle" class="step-num">8</text></g>
+    <g transform="translate(637, 395)"><circle r="10" fill="#a0aec0" class="indicator s8"/><text x="0" y="4" text-anchor="middle" class="step-num">8</text></g>
+    
+    <!-- Step 9: ECR + GitOps → ArgoCD (Orthogonal merge) -->
+    <!-- From ECR: right, down, right -->
+    <path d="M 792 322 L 830 322 L 830 360 L 870 360" stroke="#48bb78" stroke-width="3" class="l9" fill="none"/>
+    <!-- From GitOps: right, up, right -->
+    <path d="M 785 415 L 830 415 L 830 370 L 870 370" stroke="#48bb78" stroke-width="3" class="l9" fill="none"/>
+    <g transform="translate(845, 345)"><circle r="10" fill="#48bb78" class="indicator s9"/><text x="0" y="4" text-anchor="middle" class="step-num">9</text></g>
+    <text x="845" y="335" class="step-text">Sync</text>
+    
+    <!-- Step 10: ArgoCD → EKS (Horizontal) -->
+    <path d="M 965 365 L 1030 365" stroke="#276749" stroke-width="3" class="l10" fill="none"/>
+    <g transform="translate(997, 347)"><circle r="12" fill="#276749" class="indicator s10"/><text x="0" y="5" text-anchor="middle" class="step-num">10</text></g>
+    <text x="997" y="335" class="step-text" style="fill:#68d391">Deploy</text>
+
+  </g>
   
   <!-- ========== LEGEND ========== -->
   <g transform="translate(450, 550)">
