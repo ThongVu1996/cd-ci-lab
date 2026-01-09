@@ -72,10 +72,6 @@ Hệ thống sử dụng CloudFlare làm điểm nhập (Entry point) để đi�
 
 ![Traffic Diagram](https://github.com/ThongVu1996/cd-ci-lab/raw/master/final/traffic_diagram.svg)
 
-<p align="center">
-  <img src="https://github.com/ThongVu1996/cd-ci-lab/raw/master/final/traffic_diagram.svg" alt="Architecture" width="800"/>
-</p>
-
 **Quy trình xử lý chi tiết:**
 
 1. **User Request:** Người dùng truy cập website thông qua tên miền.  
