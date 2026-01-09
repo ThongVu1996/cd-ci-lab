@@ -70,8 +70,7 @@ Hệ thống sử dụng CloudFlare làm điểm nhập (Entry point) để đi�
 
 **Sơ đồ luồng dữ liệu:**
 
-![so_do_luong_du_lieu](https://github.com/ThongVu1996/cd-ci-lab/raw/master/final/so_do_luong_du_lieu.svg)
-
+![Traffic Diagram](https://github.com/ThongVu1996/cd-ci-lab/raw/master/final/traffic_diagram.svg)
 
 **Quy trình xử lý chi tiết:**
 
