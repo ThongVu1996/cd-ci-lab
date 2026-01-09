@@ -95,14 +95,14 @@
   </g>
   
   <!-- 5. ArgoCD Local -->
-  <g transform="translate(560, 100)" class="s5">
+  <g transform="translate(580, 100)" class="s5">
     <rect x="0" y="0" width="85" height="55" rx="8" fill="#edf2f7" stroke="#667eea" stroke-width="2"/>
     <text x="42" y="22" text-anchor="middle" style="font-size:12px">🔄</text>
     <text x="42" y="40" text-anchor="middle" class="node-text">ArgoCD</text>
   </g>
   
   <!-- 5. K8s Local -->
-  <g transform="translate(700, 92)" class="s5">
+  <g transform="translate(720, 85)" class="s5">
     <polygon points="42,0 84,24 84,62 42,86 0,62 0,24" fill="#3182ce" stroke="#2c5282" stroke-width="2"/>
     <text x="42" y="40" text-anchor="middle" class="node-text-light" style="font-size:10px">K8s</text>
     <text x="42" y="55" text-anchor="middle" class="node-text-light" style="font-size:9px">Local ✓</text>
@@ -118,9 +118,9 @@
     </g>
   
     <!-- 7. Decision -->
-    <g transform="translate(335, 320)" class="s7">
+    <g transform="translate(335, 315)" class="s7">
       <polygon points="50,0 100,45 50,90 0,45" fill="#2d3748" stroke="#B1BB49" stroke-width="2"/>
-      <text x="50" y="50" text-anchor="middle" class="node-text-light" style="font-size:9px">Approve?</text>
+      <text x="50" y="48" text-anchor="middle" class="node-text-light" style="font-size:9px">Approve ?</text>
     </g>
   
     <!-- 8. Deploy Stage -->
@@ -188,16 +188,16 @@
   <g transform="translate(425, 112)"><circle r="10" fill="#4299e1" class="indicator s3"/><text x="0" y="4" text-anchor="middle" class="step-num">3</text></g>
   
   <!-- Step 4: Harbor → ArgoCD (Horizontal) -->
-  <path d="M 537 130 L 560 130" stroke="#667eea" stroke-width="3" class="l4" fill="none"/>
-  <g transform="translate(548, 112)"><circle r="10" fill="#667eea" class="indicator s4"/><text x="0" y="4" text-anchor="middle" class="step-num">4</text></g>
+  <path d="M 537 130 L 580 130" stroke="#667eea" stroke-width="3" class="l4" fill="none"/>
+  <g transform="translate(558, 112)"><circle r="10" fill="#667eea" class="indicator s4"/><text x="0" y="4" text-anchor="middle" class="step-num">4</text></g>
   
   <!-- Step 5: ArgoCD → K8s (Horizontal) -->
-  <path d="M 645 127 L 700 127" stroke="#3182ce" stroke-width="3" class="l5" fill="none"/>
-  <g transform="translate(672, 110)"><circle r="10" fill="#3182ce" class="indicator s5"/><text x="0" y="4" text-anchor="middle" class="step-num">5</text></g>
-  <text x="665" y="145" class="step-text" style="fill:#68d391">Auto</text>
+  <path d="M 665 127 L 720 127" stroke="#3182ce" stroke-width="3" class="l5" fill="none"/>
+  <g transform="translate(692, 110)"><circle r="10" fill="#3182ce" class="indicator s5"/><text x="0" y="4" text-anchor="middle" class="step-num">5</text></g>
+  <text x="685" y="145" class="step-text" style="fill:#68d391">Auto</text>
   
   <!-- Step 6: Jenkins → CTO (Orthogonal: down then left then down) -->
-  <path d="M 355 165 L 355 330 M 405 365 L 460 365" stroke="#ed8936" stroke-width="3" stroke-dasharray="6 4" class="l6" fill="none"/>
+  <path d="M 355 165 L 355 330 M 405 360 L 460 360" stroke="#ed8936" stroke-width="3" stroke-dasharray="6 4" class="l6" fill="none"/>
   <g transform="translate(385, 230)"><circle r="10" fill="#ed8936" class="indicator s6"/><text x="0" y="4" text-anchor="middle" class="step-num">6</text></g>
   <text x="370" y="260" class="step-text" style="fill:#ed8936">Request</text>
   
@@ -205,7 +205,7 @@
   <g transform="translate(125, 0)">
 
     <!-- Step 7: CTO → Decision (Horizontal) → Deploy (Horizontal) -->
-    <path d="M 435 365 L 490 365" stroke="#48bb78" stroke-width="3" class="l7" fill="none"/>
+    <path d="M 435 360 L 490 360" stroke="#48bb78" stroke-width="3" class="l7" fill="none"/>
     <g transform="translate(460, 345)"><circle r="10" fill="#48bb78" class="indicator s7"/><text x="0" y="4" text-anchor="middle" class="step-num">7</text></g>
     <text x="440" y="380" class="step-text" style="fill:#48bb78">✓ Approve</text>
     
