@@ -70,41 +70,7 @@ Hệ thống sử dụng CloudFlare làm điểm nhập (Entry point) để đi�
 
 **Sơ đồ luồng dữ liệu:**
 
-```mermaid
-flowchart LR
-    %% Style Definitions
-    classDef aws fill:#fff0e6,stroke:#f66,stroke-width:1px,stroke-dasharray: 5 5;
-    classDef local fill:#e6f3ff,stroke:#33f,stroke-width:1px,stroke-dasharray: 5 5;
-    classDef proxy fill:#fff5cc,stroke:#d4a017,stroke-width:2px,rx:5,ry:5;
-    classDef user fill:#2d3748,stroke:#1a202c,stroke-width:2px,color:white,rx:10,ry:10;
-
-    User(User):::user -->|Truy cập Domain| CF{CloudFlare}:::proxy
-    
-    %% AWS Branch (Primary)
-    CF == Primary Route ==> AWS_ALB[AWS ALB]
-    
-    subgraph AWS_Cloud [☁️ Primary Site - AWS Cloud]
-        direction LR
-        AWS_ALB:::aws --> AWS_Ingress[Ingress Controller]:::aws
-        AWS_Ingress --> AWS_Svc[K8s Service]:::aws
-        AWS_Svc --> AWS_Pod[App Pods]:::aws
-    end
-    
-    %% Local Branch (Failover)
-    CF -. Failover / DR Mode .-> Tunnel[CloudFlare Tunnel]
-    
-    subgraph On_Premise [🏠 DR Site - On-Premise]
-        direction LR
-        Tunnel:::local --> CF_Agent[CloudFlare Agent]:::local
-        CF_Agent --> Local_Ingress[Ingress Nginx]:::local
-        Local_Ingress --> Local_Svc[K8s Service]:::local
-        Local_Svc --> Local_Pod[App Pods]:::local
-    end
-
-    %% Link Styles for emphasis
-    linkStyle 1 stroke:#48bb78,stroke-width:2px,color:#2f855a
-    linkStyle 5 stroke:#e53e3e,stroke-width:2px,stroke-dasharray: 5 5,color:#c53030
-```
+![so_do_luong_du_lieu](https://github.com/ThongVu1996/cd-ci-lab/raw/master/final/so_do_luong_du_lieu.svg)
 
 
 **Quy trình xử lý chi tiết:**
