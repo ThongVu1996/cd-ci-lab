@@ -109,8 +109,6 @@
   </g>
   
   <!-- ========== APPROVAL/CLOUD PATH (Row 2) ========== -->
-  
-
   <g transform="translate(125, 0)">
     <!-- 6. CTO -->
     <g transform="translate(180, 330)" class="s6">
@@ -175,7 +173,6 @@
     </g>
   </g>
 
-  
   <!-- ========== ORTHOGONAL CONNECTIONS (Right Angles Only) ========== -->
   <!-- Path 1 -> 6 -->
   <!-- Step 1: Dev → GitLab (Horizontal) -->
@@ -197,24 +194,25 @@
   <!-- Step 5: ArgoCD → K8s (Horizontal) -->
   <path d="M 645 127 L 700 127" stroke="#3182ce" stroke-width="3" class="l5" fill="none"/>
   <g transform="translate(672, 110)"><circle r="10" fill="#3182ce" class="indicator s5"/><text x="0" y="4" text-anchor="middle" class="step-num">5</text></g>
-  <text x="672" y="100" class="step-text" style="fill:#68d391">Auto</text>
+  <text x="665" y="145" class="step-text" style="fill:#68d391">Auto</text>
   
   <!-- Step 6: Jenkins → CTO (Orthogonal: down then left then down) -->
   <path d="M 355 165 L 355 330 M 405 365 L 460 365" stroke="#ed8936" stroke-width="3" stroke-dasharray="6 4" class="l6" fill="none"/>
-  <g transform="translate(292, 230)"><circle r="10" fill="#ed8936" class="indicator s6"/><text x="0" y="4" text-anchor="middle" class="step-num">6</text></g>
-  <text x="292" y="195" class="step-text" style="fill:#ed8936">Request</text>
+  <g transform="translate(385, 230)"><circle r="10" fill="#ed8936" class="indicator s6"/><text x="0" y="4" text-anchor="middle" class="step-num">6</text></g>
+  <text x="370" y="260" class="step-text" style="fill:#ed8936">Request</text>
   
   <!-- Path 7 -> 10 -->
   <g transform="translate(125, 0)">
 
     <!-- Step 7: CTO → Decision (Horizontal) → Deploy (Horizontal) -->
     <path d="M 435 365 L 490 365" stroke="#48bb78" stroke-width="3" class="l7" fill="none"/>
-    <g transform="translate(430, 330)"><circle r="10" fill="#48bb78" class="indicator s7"/><text x="0" y="4" text-anchor="middle" class="step-num">7</text></g>
-    <text x="440" y="332" class="step-text" style="fill:#48bb78">✓ Approve</text>
+    <g transform="translate(460, 345)"><circle r="10" fill="#48bb78" class="indicator s7"/><text x="0" y="4" text-anchor="middle" class="step-num">7</text></g>
+    <text x="440" y="380" class="step-text" style="fill:#48bb78">✓ Approve</text>
     
     <!-- Reject path (Vertical down) -->
     <path d="M 385 410 L 385 450" stroke="#f56565" stroke-width="2" stroke-dasharray="4 4" class="lreject" fill="none"/>
-    <text x="400" y="430" class="step-text" style="fill:#f56565">✗ Reject</text>
+    <g transform="translate(420, 420)"><circle r="10" fill="#f56565" class="indicator s7"/><text x="0" y="4" text-anchor="middle" class="step-num">7</text></g>
+    <text x="400" y="440" class="step-text" style="fill:#f56565">✗ Reject</text>
     
     <!-- Step 8: Deploy → ECR + GitOps (Orthogonal right angles) -->
     <!-- To ECR: right, up, right -->
@@ -222,20 +220,20 @@
     <!-- To GitOps: right, down, right -->
     <path d="M 590 375 L 620 375 L 620 415 L 685 415" stroke="#a0aec0" stroke-width="3" class="l8" fill="none"/>
     <g transform="translate(637, 305)"><circle r="10" fill="#fc8181" class="indicator s8"/><text x="0" y="4" text-anchor="middle" class="step-num">8</text></g>
-    <g transform="translate(637, 395)"><circle r="10" fill="#a0aec0" class="indicator s8"/><text x="0" y="4" text-anchor="middle" class="step-num">8</text></g>
+    <g transform="translate(637, 435)"><circle r="10" fill="#a0aec0" class="indicator s8"/><text x="0" y="4" text-anchor="middle" class="step-num">8</text></g>
     
     <!-- Step 9: ECR + GitOps → ArgoCD (Orthogonal merge) -->
     <!-- From ECR: right, down, right -->
     <path d="M 792 322 L 830 322 L 830 360 L 870 360" stroke="#48bb78" stroke-width="3" class="l9" fill="none"/>
     <!-- From GitOps: right, up, right -->
     <path d="M 785 415 L 830 415 L 830 370 L 870 370" stroke="#48bb78" stroke-width="3" class="l9" fill="none"/>
-    <g transform="translate(845, 345)"><circle r="10" fill="#48bb78" class="indicator s9"/><text x="0" y="4" text-anchor="middle" class="step-num">9</text></g>
-    <text x="845" y="335" class="step-text">Sync</text>
+    <g transform="translate(850, 345)"><circle r="10" fill="#48bb78" class="indicator s9"/><text x="0" y="4" text-anchor="middle" class="step-num">9</text></g>
+    <text x="840" y="385" class="step-text">Sync</text>
     
     <!-- Step 10: ArgoCD → EKS (Horizontal) -->
     <path d="M 965 365 L 1030 365" stroke="#276749" stroke-width="3" class="l10" fill="none"/>
     <g transform="translate(997, 347)"><circle r="12" fill="#276749" class="indicator s10"/><text x="0" y="5" text-anchor="middle" class="step-num">10</text></g>
-    <text x="997" y="335" class="step-text" style="fill:#68d391">Deploy</text>
+    <text x="985" y="385" class="step-text" style="fill:#68d391">Deploy</text>
 
   </g>
   
