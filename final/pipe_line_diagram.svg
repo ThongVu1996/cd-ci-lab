@@ -111,14 +111,14 @@
   <!-- ========== APPROVAL/CLOUD PATH (Row 2) ========== -->
   
   <!-- 6. CTO -->
-  <g transform="translate(180, 290)" class="s6">
+  <g transform="translate(180, 330)" class="s6">
     <rect x="0" y="0" width="100" height="65" rx="10" fill="#2d3748" stroke="#ed8936" stroke-width="3"/>
     <text x="50" y="28" text-anchor="middle" style="font-size:18px">🤵</text>
     <text x="50" y="48" text-anchor="middle" class="node-text-light">CTO/Manager</text>
   </g>
   
   <!-- 7. Decision -->
-  <g transform="translate(335, 280)" class="s7">
+  <g transform="translate(335, 320)" class="s7">
     <polygon points="50,0 100,45 50,90 0,45" fill="#2d3748" stroke="#48bb78" stroke-width="2"/>
     <text x="50" y="42" text-anchor="middle" class="node-text-light" style="font-size:9px">Approve?</text>
   </g>
@@ -132,7 +132,7 @@
   </g>
   
   <!-- Reject Result -->
-  <g transform="translate(335, 420)" class="reject">
+  <g transform="translate(335, 450)" class="reject">
     <rect x="0" y="0" width="100" height="45" rx="6" fill="#2d3748" stroke="#f56565" stroke-width="2" stroke-dasharray="4 4"/>
     <text x="50" y="20" text-anchor="middle" class="node-text-light" style="fill:#f56565; font-size:9px">❌ Rejected</text>
     <text x="50" y="35" text-anchor="middle" class="node-text-light" style="font-size:8px">Local Only</text>
@@ -201,12 +201,12 @@
   <text x="292" y="195" class="step-text" style="fill:#ed8936">Request</text>
   
   <!-- Step 7: CTO → Decision (Horizontal) → Deploy (Horizontal) -->
-  <path d="M 280 322 L 335 322 M 435 325 L 462 325 L 462 360 L 490 360" stroke="#48bb78" stroke-width="3" class="l7" fill="none"/>
+  <path d="M 280 365 L 335 365 M 435 365 L 490 365" stroke="#48bb78" stroke-width="3" class="l7" fill="none"/>
   <g transform="translate(307, 304)"><circle r="10" fill="#48bb78" class="indicator s7"/><text x="0" y="4" text-anchor="middle" class="step-num">7</text></g>
   <text x="307" y="294" class="step-text" style="fill:#48bb78">✓ Approve</text>
   
   <!-- Reject path (Vertical down) -->
-  <path d="M 385 370 L 385 420" stroke="#f56565" stroke-width="2" stroke-dasharray="4 4" class="lreject" fill="none"/>
+  <path d="M 385 410 L 385 450" stroke="#f56565" stroke-width="2" stroke-dasharray="4 4" class="lreject" fill="none"/>
   <text x="400" y="400" class="step-text" style="fill:#f56565">✗ Reject</text>
   
   <!-- Step 8: Deploy → ECR + GitOps (Orthogonal right angles) -->
@@ -231,7 +231,7 @@
   <text x="997" y="335" class="step-text" style="fill:#68d391">Deploy</text>
   
   <!-- ========== LEGEND ========== -->
-  <g transform="translate(100, 550)">
+  <g transform="translate(450, 550)">
     <rect x="0" y="0" width="750" height="80" rx="10" fill="rgba(45,55,72,0.9)" stroke="#4a5568"/>
     <text x="375" y="20" text-anchor="middle" class="subtitle" style="font-weight:600; fill:#e2e8f0">Pipeline Flow - Orthogonal Routing</text>
     
