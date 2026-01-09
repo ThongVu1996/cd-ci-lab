@@ -1,0 +1,255 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" style="background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);">
+  <defs>
+    <!-- Gradient definitions -->
+    <linearGradient id="primaryGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#48bb78"/>
+      <stop offset="100%" style="stop-color:#38a169"/>
+    </linearGradient>
+    <linearGradient id="failoverGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ed8936"/>
+      <stop offset="100%" style="stop-color:#dd6b20"/>
+    </linearGradient>
+    <linearGradient id="cloudflareGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f6ad55"/>
+      <stop offset="100%" style="stop-color:#ed8936"/>
+    </linearGradient>
+    <linearGradient id="awsGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff9900"/>
+      <stop offset="100%" style="stop-color:#ff6600"/>
+    </linearGradient>
+    <linearGradient id="localGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea"/>
+      <stop offset="100%" style="stop-color:#764ba2"/>
+    </linearGradient>
+    
+    <!-- Glow filter -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Animated dot marker -->
+    <circle id="dataDot" r="6" fill="#7dd3fc">
+      <animate attributeName="opacity" values="1;0.5;1" dur="0.5s" repeatCount="indefinite"/>
+    </circle>
+  </defs>
+  
+  <style>
+    .title { font-family: 'Segoe UI', sans-serif; font-size: 24px; fill: #e2e8f0; font-weight: 600; }
+    .label { font-family: 'Segoe UI', sans-serif; font-size: 12px; fill: #a0aec0; }
+    .node-label { font-family: 'Segoe UI', sans-serif; font-size: 11px; fill: #1a202c; font-weight: 500; }
+    .node-label-light { font-family: 'Segoe UI', sans-serif; font-size: 11px; fill: #e2e8f0; font-weight: 500; }
+    .subgraph-title { font-family: 'Segoe UI', sans-serif; font-size: 14px; fill: #cbd5e0; font-weight: 600; }
+    
+    /* Flow animation for primary path */
+    .flow-primary {
+      stroke-dasharray: 10 5;
+      animation: flowPrimary 1s linear infinite;
+    }
+    @keyframes flowPrimary {
+      from { stroke-dashoffset: 30; }
+      to { stroke-dashoffset: 0; }
+    }
+    
+    /* Flow animation for failover path */
+    .flow-failover {
+      stroke-dasharray: 8 8;
+      animation: flowFailover 1.5s linear infinite;
+    }
+    @keyframes flowFailover {
+      from { stroke-dashoffset: 32; }
+      to { stroke-dashoffset: 0; }
+    }
+    
+    /* Pulse animation for nodes */
+    .node-pulse {
+      animation: nodePulse 2s ease-in-out infinite;
+    }
+    @keyframes nodePulse {
+      0%, 100% { filter: drop-shadow(0 0 5px rgba(125, 211, 252, 0.3)); }
+      50% { filter: drop-shadow(0 0 15px rgba(125, 211, 252, 0.6)); }
+    }
+    
+    /* Data packet animation - Primary */
+    .data-packet-primary {
+      animation: movePrimary 3s ease-in-out infinite;
+    }
+    @keyframes movePrimary {
+      0% { transform: translate(0, 0); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translate(700px, 0); opacity: 0; }
+    }
+    
+    /* Data packet animation - Failover */
+    .data-packet-failover {
+      animation: moveFailover 4s ease-in-out infinite;
+      animation-delay: 1.5s;
+    }
+    @keyframes moveFailover {
+      0% { transform: translate(0, 0); opacity: 0; }
+      10% { opacity: 0.7; }
+      90% { opacity: 0.7; }
+      100% { transform: translate(700px, 180px); opacity: 0; }
+    }
+    
+    /* Breathing effect for CloudFlare */
+    .cf-breathe {
+      animation: breathe 3s ease-in-out infinite;
+    }
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+  </style>
+  
+  <!-- Title -->
+  <text x="600" y="40" text-anchor="middle" class="title">🌐 CloudFlare Multi-Site Traffic Routing</text>
+  
+  <!-- USER NODE -->
+  <g transform="translate(60, 250)" class="node-pulse">
+    <rect x="0" y="0" width="80" height="50" rx="10" fill="#2d3748" stroke="#4a5568" stroke-width="2"/>
+    <text x="40" y="22" text-anchor="middle" class="node-label-light">👤 User</text>
+    <text x="40" y="38" text-anchor="middle" class="label" style="font-size:10px">Request</text>
+  </g>
+  
+  <!-- CLOUDFLARE NODE (centered) -->
+  <g transform="translate(220, 230)" class="cf-breathe">
+    <polygon points="60,0 120,45 90,90 30,90 0,45" fill="url(#cloudflareGrad)" stroke="#dd6b20" stroke-width="2" filter="url(#glow)"/>
+    <text x="60" y="40" text-anchor="middle" class="node-label">☁️ CloudFlare</text>
+    <text x="60" y="55" text-anchor="middle" class="node-label" style="font-size:9px">DNS & Routing</text>
+  </g>
+  
+  <!-- Connection: User -> CloudFlare -->
+  <path d="M 140 275 L 220 275" stroke="#7dd3fc" stroke-width="3" class="flow-primary" marker-end="url(#arrowBlue)"/>
+  <text x="180" y="265" text-anchor="middle" class="label">Domain</text>
+
+  <!-- ========== AWS CLOUD SECTION (Primary) ========== -->
+  <g transform="translate(380, 80)">
+    <!-- Subgraph background -->
+    <rect x="0" y="0" width="420" height="180" rx="15" fill="rgba(255, 153, 0, 0.1)" stroke="#ff9900" stroke-width="2" stroke-dasharray="5 5"/>
+    <text x="210" y="25" text-anchor="middle" class="subgraph-title">☁️ Primary Site - AWS Cloud</text>
+    
+    <!-- AWS ALB -->
+    <g transform="translate(30, 60)">
+      <rect x="0" y="0" width="80" height="45" rx="6" fill="#ff9900" stroke="#cc7a00" stroke-width="2"/>
+      <text x="40" y="20" text-anchor="middle" class="node-label">AWS ALB</text>
+      <text x="40" y="35" text-anchor="middle" class="node-label" style="font-size:9px">Load Balancer</text>
+    </g>
+    
+    <!-- Ingress -->
+    <g transform="translate(140, 60)">
+      <rect x="0" y="0" width="80" height="45" rx="6" fill="#fbd38d" stroke="#d69e2e" stroke-width="2"/>
+      <text x="40" y="20" text-anchor="middle" class="node-label">Ingress</text>
+      <text x="40" y="35" text-anchor="middle" class="node-label" style="font-size:9px">Controller</text>
+    </g>
+    
+    <!-- Service -->
+    <g transform="translate(250, 60)">
+      <rect x="0" y="0" width="70" height="45" rx="6" fill="#faf089" stroke="#d69e2e" stroke-width="2"/>
+      <text x="35" y="20" text-anchor="middle" class="node-label">K8s</text>
+      <text x="35" y="35" text-anchor="middle" class="node-label" style="font-size:9px">Service</text>
+    </g>
+    
+    <!-- Pods -->
+    <g transform="translate(340, 50)">
+      <rect x="0" y="0" width="60" height="35" rx="6" fill="#68d391" stroke="#48bb78" stroke-width="2"/>
+      <text x="30" y="22" text-anchor="middle" class="node-label">Pod 1</text>
+    </g>
+    <g transform="translate(340, 95)">
+      <rect x="0" y="0" width="60" height="35" rx="6" fill="#68d391" stroke="#48bb78" stroke-width="2"/>
+      <text x="30" y="22" text-anchor="middle" class="node-label">Pod 2</text>
+    </g>
+    
+    <!-- Internal connections -->
+    <path d="M 110 82 L 140 82" stroke="#48bb78" stroke-width="2" class="flow-primary"/>
+    <path d="M 220 82 L 250 82" stroke="#48bb78" stroke-width="2" class="flow-primary"/>
+    <path d="M 320 82 L 340 68" stroke="#48bb78" stroke-width="2" class="flow-primary"/>
+    <path d="M 320 82 L 340 112" stroke="#48bb78" stroke-width="2" class="flow-primary"/>
+  </g>
+  
+  <!-- Connection: CloudFlare -> AWS (Primary Route) -->
+  <path d="M 340 260 L 380 260 Q 420 260 420 200 L 420 162" stroke="url(#primaryGrad)" stroke-width="4" class="flow-primary" fill="none"/>
+  <rect x="355" y="220" width="80" height="20" rx="4" fill="#276749"/>
+  <text x="395" y="234" text-anchor="middle" fill="#9ae6b4" style="font-size:10px; font-weight:600">Primary Route</text>
+  
+  <!-- ========== ON-PREMISE SECTION (DR/Failover) ========== -->
+  <g transform="translate(380, 340)">
+    <!-- Subgraph background -->
+    <rect x="0" y="0" width="420" height="180" rx="15" fill="rgba(102, 126, 234, 0.1)" stroke="#667eea" stroke-width="2" stroke-dasharray="5 5"/>
+    <text x="210" y="25" text-anchor="middle" class="subgraph-title">🏠 DR Site - On-Premise</text>
+    
+    <!-- CF Tunnel -->
+    <g transform="translate(30, 60)">
+      <rect x="0" y="0" width="80" height="45" rx="6" fill="#667eea" stroke="#5a67d8" stroke-width="2"/>
+      <text x="40" y="20" text-anchor="middle" class="node-label-light">CF Tunnel</text>
+      <text x="40" y="35" text-anchor="middle" class="node-label-light" style="font-size:9px">Agent</text>
+    </g>
+    
+    <!-- Ingress Nginx -->
+    <g transform="translate(140, 60)">
+      <rect x="0" y="0" width="80" height="45" rx="6" fill="#9f7aea" stroke="#805ad5" stroke-width="2"/>
+      <text x="40" y="20" text-anchor="middle" class="node-label-light">Ingress</text>
+      <text x="40" y="35" text-anchor="middle" class="node-label-light" style="font-size:9px">Nginx</text>
+    </g>
+    
+    <!-- Service -->
+    <g transform="translate(250, 60)">
+      <rect x="0" y="0" width="70" height="45" rx="6" fill="#b794f4" stroke="#805ad5" stroke-width="2"/>
+      <text x="35" y="20" text-anchor="middle" class="node-label">K8s</text>
+      <text x="35" y="35" text-anchor="middle" class="node-label" style="font-size:9px">Service</text>
+    </g>
+    
+    <!-- Pods -->
+    <g transform="translate(340, 50)">
+      <rect x="0" y="0" width="60" height="35" rx="6" fill="#68d391" stroke="#48bb78" stroke-width="2"/>
+      <text x="30" y="22" text-anchor="middle" class="node-label">Pod 1</text>
+    </g>
+    <g transform="translate(340, 95)">
+      <rect x="0" y="0" width="60" height="35" rx="6" fill="#68d391" stroke="#48bb78" stroke-width="2"/>
+      <text x="30" y="22" text-anchor="middle" class="node-label">Pod 2</text>
+    </g>
+    
+    <!-- Internal connections -->
+    <path d="M 110 82 L 140 82" stroke="#9f7aea" stroke-width="2" class="flow-failover"/>
+    <path d="M 220 82 L 250 82" stroke="#9f7aea" stroke-width="2" class="flow-failover"/>
+    <path d="M 320 82 L 340 68" stroke="#9f7aea" stroke-width="2" class="flow-failover"/>
+    <path d="M 320 82 L 340 112" stroke="#9f7aea" stroke-width="2" class="flow-failover"/>
+  </g>
+  
+  <!-- Connection: CloudFlare -> On-Premise (Failover Route) -->
+  <path d="M 340 300 L 380 300 Q 420 300 420 360 L 420 400" stroke="url(#failoverGrad)" stroke-width="3" stroke-dasharray="8 8" class="flow-failover" fill="none"/>
+  <rect x="345" y="305" width="95" height="20" rx="4" fill="#9c4221"/>
+  <text x="392" y="319" text-anchor="middle" fill="#fbd38d" style="font-size:10px; font-weight:600">Failover / DR Mode</text>
+  
+  <!-- Animated Data Packets - Primary Path -->
+  <g class="data-packet-primary">
+    <circle cx="140" cy="275" r="8" fill="#7dd3fc" filter="url(#glow)">
+      <animate attributeName="r" values="6;10;6" dur="0.5s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  
+  <!-- Animated Data Packets - Failover Path -->
+  <g class="data-packet-failover">
+    <circle cx="140" cy="275" r="6" fill="#ed8936" filter="url(#glow)">
+      <animate attributeName="r" values="4;7;4" dur="0.7s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  
+  <!-- Legend -->
+  <g transform="translate(900, 520)">
+    <rect x="0" y="0" width="280" height="70" rx="10" fill="rgba(45, 55, 72, 0.8)" stroke="#4a5568"/>
+    <text x="140" y="20" text-anchor="middle" fill="#e2e8f0" style="font-size:12px; font-weight:600">Legend</text>
+    
+    <line x1="20" y1="40" x2="60" y2="40" stroke="#48bb78" stroke-width="3"/>
+    <circle cx="40" cy="40" r="4" fill="#7dd3fc"/>
+    <text x="70" y="44" fill="#a0aec0" style="font-size:11px">Primary Traffic Flow</text>
+    
+    <line x1="20" y1="58" x2="60" y2="58" stroke="#ed8936" stroke-width="2" stroke-dasharray="5 5"/>
+    <circle cx="40" cy="58" r="3" fill="#ed8936"/>
+    <text x="70" y="62" fill="#a0aec0" style="font-size:11px">DR/Failover Traffic Flow</text>
+  </g>
+</svg>
